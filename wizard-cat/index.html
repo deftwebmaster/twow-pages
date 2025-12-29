@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Adventures of Wizard Cat & Magic Girl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-night: #0a0a14;
+            --starry-blue: #12132a;
+            --wizard-gold: #d4a853;
+            --wizard-gold-dim: #8a6d35;
+            --soft-white: #f0ebe3;
+            --page-shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        html, body, #root {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--deep-night);
+            color: var(--soft-white);
+        }
+
+        /* Starfield background */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--base-opacity); transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Main container */
+        .storybook {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Title */
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            font-weight: 600;
+            color: var(--wizard-gold);
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 20px rgba(212, 168, 83, 0.3);
+        }
+
+        /* Page container */
+        .page-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 3/4;
+            max-height: calc(100vh - 180px);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px var(--page-shadow),
+                0 0 1px rgba(212, 168, 83, 0.3),
+                inset 0 0 0 1px rgba(212, 168, 83, 0.1);
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scale(0.98);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .page.exiting {
+            opacity: 0;
+            transform: scale(1.02);
+            z-index: 1;
+        }
+
+        .page-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        /* Caption area - ready for future use */
+        .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px 20px 20px;
+            background: linear-gradient(to top, rgba(10, 10, 20, 0.95) 0%, rgba(10, 10, 20, 0.7) 60%, transparent 100%);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--soft-white);
+            text-align: center;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+        }
+
+        .page.active .caption:not(:empty) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--wizard-gold-dim);
+            color: var(--wizard-gold);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--wizard-gold);
+            color: var(--deep-night);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(212, 168, 83, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        /* Page indicator */
+        .page-indicator {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--wizard-gold-dim);
+            letter-spacing: 0.2em;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Progress dots */
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--wizard-gold-dim);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot:hover {
+            background: var(--wizard-gold);
+            transform: scale(1.3);
+        }
+
+        .dot.active {
+            background: var(--wizard-gold);
+            box-shadow: 0 0 10px rgba(212, 168, 83, 0.6);
+            transform: scale(1.2);
+        }
+
+        /* Touch hint on mobile */
+        .touch-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--wizard-gold-dim);
+            opacity: 0.6;
+            animation: fadeHint 3s ease-out forwards;
+            animation-delay: 2s;
+        }
+
+        @keyframes fadeHint {
+            to { opacity: 0; }
+        }
+
+        /* Swipe areas for touch */
+        .swipe-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 25%;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .swipe-zone.left { left: 0; }
+        .swipe-zone.right { right: 0; }
+
+        /* Loading state */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--wizard-gold);
+        }
+
+        @media (max-width: 600px) {
+            .storybook {
+                padding: 15px;
+            }
+            
+            .title {
+                margin-bottom: 12px;
+            }
+            
+            .page-container {
+                max-height: calc(100vh - 160px);
+            }
+            
+            .nav-btn {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .progress-dots {
+                gap: 6px;
+            }
+            
+            .dot {
+                width: 5px;
+                height: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useRef } = React;
+
+        // ============================================
+        // STORY CONFIGURATION
+        // Edit this array to add/change pages and captions
+        // ============================================
+        const STORY_PAGES = [
+            {
+                image: "images/01-cozy-beginning.jpg",
+                caption: "" // Add caption text here when ready
+            },
+            {
+                image: "images/02-magical-awakening.jpg",
+                caption: ""
+            },
+            {
+                image: "images/03-wizard-cat-revealed.jpg",
+                caption: ""
+            },
+            {
+                image: "images/04-epic-adventure.jpg",
+                caption: ""
+            },
+            {
+                image: "images/06-party-time.jpg",
+                caption: ""
+            },
+            {
+                image: "images/07-battle-together.jpg",
+                caption: ""
+            },
+            {
+                image: "images/08-wizard-cat-battles.jpg",
+                caption: ""
+            },
+            {
+                image: "images/09-tea-time.jpg",
+                caption: ""
+            },
+            {
+                image: "images/10-magic-duel.jpg",
+                caption: ""
+            }
+        ];
+
+        const STORY_TITLE = "The Adventures of Wizard Cat & Magic Girl";
+        // ============================================
+
+        // Starfield component
+        function Starfield() {
+            const stars = Array.from({ length: 80 }, (_, i) => ({
+                id: i,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                size: Math.random() * 2 + 1,
+                duration: Math.random() * 3 + 2,
+                delay: Math.random() * 3,
+                baseOpacity: Math.random() * 0.5 + 0.2
+            }));
+
+            return (
+                <div className="starfield">
+                    {stars.map(star => (
+                        <div
+                            key={star.id}
+                            className="star"
+                            style={{
+                                left: star.left,
+                                top: star.top,
+                                width: star.size,
+                                height: star.size,
+                                '--duration': `${star.duration}s`,
+                                '--delay': `${star.delay}s`,
+                                '--base-opacity': star.baseOpacity
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        }
+
+        // Main Storybook component
+        function Storybook() {
+            const [currentPage, setCurrentPage] = useState(0);
+            const [exitingPage, setExitingPage] = useState(null);
+            const [imagesLoaded, setImagesLoaded] = useState(false);
+            const touchStartX = useRef(null);
+            const containerRef = useRef(null);
+
+            const totalPages = STORY_PAGES.length;
+
+            // Preload images
+            useEffect(() => {
+                let loadedCount = 0;
+                STORY_PAGES.forEach(page => {
+                    const img = new Image();
+                    img.onload = img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === STORY_PAGES.length) {
+                            setImagesLoaded(true);
+                        }
+                    };
+                    img.src = page.image;
+                });
+            }, []);
+
+            const goToPage = useCallback((newPage) => {
+                if (newPage < 0 || newPage >= totalPages || newPage === currentPage) return;
+                setExitingPage(currentPage);
+                setCurrentPage(newPage);
+                setTimeout(() => setExitingPage(null), 500);
+            }, [currentPage, totalPages]);
+
+            const nextPage = useCallback(() => goToPage(currentPage + 1), [currentPage, goToPage]);
+            const prevPage = useCallback(() => goToPage(currentPage - 1), [currentPage, goToPage]);
+
+            // Keyboard navigation
+            useEffect(() => {
+                const handleKeyDown = (e) => {
+                    if (e.key === 'ArrowRight' || e.key === ' ') {
+                        e.preventDefault();
+                        nextPage();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        prevPage();
+                    }
+                };
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+            }, [nextPage, prevPage]);
+
+            // Touch handling
+            const handleTouchStart = (e) => {
+                touchStartX.current = e.touches[0].clientX;
+            };
+
+            const handleTouchEnd = (e) => {
+                if (touchStartX.current === null) return;
+                const touchEndX = e.changedTouches[0].clientX;
+                const diff = touchStartX.current - touchEndX;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) nextPage();
+                    else prevPage();
+                }
+                touchStartX.current = null;
+            };
+
+            if (!imagesLoaded) {
+                return (
+                    <>
+                        <Starfield />
+                        <div className="storybook">
+                            <div className="loading">✨ Summoning magic...</div>
+                        </div>
+                    </>
+                );
+            }
+
+            return (
+                <>
+                    <Starfield />
+                    <div className="storybook">
+                        <h1 className="title">{STORY_TITLE}</h1>
+                        
+                        <div 
+                            className="page-container"
+                            ref={containerRef}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                        >
+                            {STORY_PAGES.map((page, index) => (
+                                <div
+                                    key={index}
+                                    className={`page ${index === currentPage ? 'active' : ''} ${index === exitingPage ? 'exiting' : ''}`}
+                                >
+                                    <img 
+                                        src={page.image} 
+                                        alt={`Page ${index + 1}`}
+                                        className="page-image"
+                                    />
+                                    {page.caption && (
+                                        <div className="caption">{page.caption}</div>
+                                    )}
+                                </div>
+                            ))}
+                            
+                            {/* Clickable zones for desktop */}
+                            <div className="swipe-zone left" onClick={prevPage} />
+                            <div className="swipe-zone right" onClick={nextPage} />
+                        </div>
+
+                        <div className="nav-container">
+                            <button 
+                                className="nav-btn" 
+                                onClick={prevPage}
+                                disabled={currentPage === 0}
+                                aria-label="Previous page"
+                            >
+                                ←
+                            </button>
+                            
+                            <span className="page-indicator">
+                                {currentPage + 1} / {totalPages}
+                            </span>
+                            
+                            <button 
+                                className="nav-btn" 
+                                onClick={nextPage}
+                                disabled={currentPage === totalPages - 1}
+                                aria-label="Next page"
+                            >
+                                →
+                            </button>
+                        </div>
+
+                        <div className="progress-dots">
+                            {STORY_PAGES.map((_, index) => (
+                                <div
+                                    key={index}
+                                    className={`dot ${index === currentPage ? 'active' : ''}`}
+                                    onClick={() => goToPage(index)}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Storybook />);
+    </script>
+</body>
+</html>
