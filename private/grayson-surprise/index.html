@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Little Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                #87CEEB 0%, 
+                #B0E0E6 30%,
+                #E0F4FF 70%,
+                #F0F8FF 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Grayson photo layer */
+        .grayson-container {
+            position: absolute;
+            width: 85%;
+            max-width: 380px;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 40px rgba(135, 206, 235, 0.4),
+                0 0 0 4px rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+        }
+
+        .grayson-container.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .grayson-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Message */
+        .message {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
+            font-weight: 500;
+            color: #5B7C99;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease 1s;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .message.revealed {
+            opacity: 1;
+        }
+
+        /* Tap hint */
+        .tap-hint {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            color: #7BA3BE;
+            opacity: 0;
+            animation: fadeInHint 1s ease 0.5s forwards, pulse 2s ease-in-out 1.5s infinite;
+        }
+
+        .tap-hint.hidden {
+            opacity: 0 !important;
+            animation: none;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes fadeInHint {
+            to { opacity: 0.8; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* Cloud layers */
+        .clouds {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.95;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 1s ease;
+            box-shadow: 
+                0 0 40px 20px rgba(255, 255, 255, 0.8),
+                0 0 80px 40px rgba(255, 255, 255, 0.4);
+        }
+
+        .cloud.dispersed {
+            opacity: 0;
+        }
+
+        /* Individual cloud positioning and dispersal directions */
+        .cloud-1 {
+            width: 200px; height: 120px;
+            top: 5%; left: 10%;
+        }
+        .cloud-1.dispersed { transform: translate(-150%, -100%); }
+
+        .cloud-2 {
+            width: 250px; height: 140px;
+            top: 8%; right: 5%;
+        }
+        .cloud-2.dispersed { transform: translate(150%, -100%); }
+
+        .cloud-3 {
+            width: 180px; height: 100px;
+            top: 20%; left: 25%;
+        }
+        .cloud-3.dispersed { transform: translate(-200%, -50%); }
+
+        .cloud-4 {
+            width: 220px; height: 130px;
+            top: 18%; right: 15%;
+        }
+        .cloud-4.dispersed { transform: translate(200%, -80%); }
+
+        .cloud-5 {
+            width: 280px; height: 160px;
+            top: 35%; left: 5%;
+        }
+        .cloud-5.dispersed { transform: translate(-180%, 0); }
+
+        .cloud-6 {
+            width: 260px; height: 150px;
+            top: 32%; right: 0%;
+        }
+        .cloud-6.dispersed { transform: translate(180%, 0); }
+
+        .cloud-7 {
+            width: 300px; height: 170px;
+            top: 45%; left: 20%;
+        }
+        .cloud-7.dispersed { transform: translate(-150%, 50%); }
+
+        .cloud-8 {
+            width: 270px; height: 155px;
+            top: 48%; right: 10%;
+        }
+        .cloud-8.dispersed { transform: translate(150%, 50%); }
+
+        .cloud-9 {
+            width: 240px; height: 140px;
+            top: 60%; left: 0%;
+        }
+        .cloud-9.dispersed { transform: translate(-180%, 80%); }
+
+        .cloud-10 {
+            width: 230px; height: 135px;
+            top: 58%; right: 5%;
+        }
+        .cloud-10.dispersed { transform: translate(180%, 80%); }
+
+        .cloud-11 {
+            width: 200px; height: 120px;
+            top: 72%; left: 15%;
+        }
+        .cloud-11.dispersed { transform: translate(-150%, 120%); }
+
+        .cloud-12 {
+            width: 210px; height: 125px;
+            top: 70%; right: 15%;
+        }
+        .cloud-12.dispersed { transform: translate(150%, 120%); }
+
+        .cloud-13 {
+            width: 260px; height: 150px;
+            bottom: 8%; left: 10%;
+        }
+        .cloud-13.dispersed { transform: translate(-150%, 150%); }
+
+        .cloud-14 {
+            width: 240px; height: 140px;
+            bottom: 5%; right: 10%;
+        }
+        .cloud-14.dispersed { transform: translate(150%, 150%); }
+
+        /* Center cluster - thicker coverage */
+        .cloud-15 {
+            width: 320px; height: 180px;
+            top: 38%; left: 50%;
+            transform: translateX(-50%);
+            filter: blur(10px);
+        }
+        .cloud-15.dispersed { 
+            transform: translateX(-50%) translateY(-200%); 
+            opacity: 0;
+        }
+
+        .cloud-16 {
+            width: 280px; height: 160px;
+            top: 50%; left: 50%;
+            transform: translateX(-50%);
+            filter: blur(10px);
+        }
+        .cloud-16.dispersed { 
+            transform: translateX(-50%) translateY(200%); 
+            opacity: 0;
+        }
+
+        /* Subtle floating animation before reveal */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cloud:not(.dispersed) {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .cloud-2:not(.dispersed) { animation-delay: -1s; }
+        .cloud-3:not(.dispersed) { animation-delay: -2s; }
+        .cloud-4:not(.dispersed) { animation-delay: -0.5s; }
+        .cloud-5:not(.dispersed) { animation-delay: -3s; }
+        .cloud-6:not(.dispersed) { animation-delay: -1.5s; }
+        .cloud-7:not(.dispersed) { animation-delay: -2.5s; }
+        .cloud-8:not(.dispersed) { animation-delay: -4s; }
+        .cloud-9:not(.dispersed) { animation-delay: -0.8s; }
+        .cloud-10:not(.dispersed) { animation-delay: -3.5s; }
+        .cloud-11:not(.dispersed) { animation-delay: -1.2s; }
+        .cloud-12:not(.dispersed) { animation-delay: -2.8s; }
+        .cloud-13:not(.dispersed) { animation-delay: -4.5s; }
+        .cloud-14:not(.dispersed) { animation-delay: -1.8s; }
+        .cloud-15:not(.dispersed) { animation-delay: -2.2s; animation-duration: 8s; }
+        .cloud-16:not(.dispersed) { animation-delay: -3.2s; animation-duration: 8s; }
+
+        /* Reset button */
+        .reset-btn {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.85rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid #B0D4E8;
+            color: #5B7C99;
+            border-radius: 20px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .reset-btn:hover {
+            background: #B0D4E8;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <!-- Grayson photo underneath -->
+        <div class="grayson-container" id="graysonContainer">
+            <img class="grayson-photo" src="grayson.jpg" alt="Grayson the cat">
+        </div>
+
+        <!-- Message -->
+        <p class="message" id="message">Someone's thinking of you 💙</p>
+
+        <!-- Tap hint -->
+        <p class="tap-hint" id="tapHint">tap anywhere</p>
+
+        <!-- Cloud layer -->
+        <div class="clouds" id="clouds">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+            <div class="cloud cloud-4"></div>
+            <div class="cloud cloud-5"></div>
+            <div class="cloud cloud-6"></div>
+            <div class="cloud cloud-7"></div>
+            <div class="cloud cloud-8"></div>
+            <div class="cloud cloud-9"></div>
+            <div class="cloud cloud-10"></div>
+            <div class="cloud cloud-11"></div>
+            <div class="cloud cloud-12"></div>
+            <div class="cloud cloud-13"></div>
+            <div class="cloud cloud-14"></div>
+            <div class="cloud cloud-15"></div>
+            <div class="cloud cloud-16"></div>
+        </div>
+
+        <!-- Reset button -->
+        <button class="reset-btn" id="resetBtn">✨ Again</button>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const clouds = document.querySelectorAll('.cloud');
+        const graysonContainer = document.getElementById('graysonContainer');
+        const message = document.getElementById('message');
+        const tapHint = document.getElementById('tapHint');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let revealed = false;
+
+        // Whoosh sound using Web Audio API
+        function playWhoosh() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create noise for whoosh
+                const bufferSize = audioCtx.sampleRate * 0.8;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
+                }
+                
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                
+                // Filter for softer sound
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.8);
+                
+                // Gain envelope
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+                
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                noise.start();
+                noise.stop(audioCtx.currentTime + 0.8);
+            } catch (e) {
+                // Audio not supported, fail silently
+            }
+        }
+
+        function revealGrayson() {
+            if (revealed) return;
+            revealed = true;
+
+            // Play sound
+            playWhoosh();
+
+            // Hide tap hint
+            tapHint.classList.add('hidden');
+
+            // Disperse clouds with staggered timing
+            clouds.forEach((cloud, index) => {
+                setTimeout(() => {
+                    cloud.classList.add('dispersed');
+                }, index * 50);
+            });
+
+            // Reveal Grayson
+            setTimeout(() => {
+                graysonContainer.classList.add('revealed');
+                message.classList.add('revealed');
+            }, 200);
+
+            // Show reset button
+            setTimeout(() => {
+                resetBtn.classList.add('visible');
+            }, 2000);
+        }
+
+        function reset() {
+            revealed = false;
+            
+            // Hide elements
+            graysonContainer.classList.remove('revealed');
+            message.classList.remove('revealed');
+            resetBtn.classList.remove('visible');
+            
+            // Reset clouds
+            clouds.forEach(cloud => {
+                cloud.classList.remove('dispersed');
+            });
+
+            // Show hint again after clouds reform
+            setTimeout(() => {
+                tapHint.classList.remove('hidden');
+            }, 1000);
+        }
+
+        container.addEventListener('click', (e) => {
+            if (e.target === resetBtn) return;
+            revealGrayson();
+        });
+
+        resetBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            reset();
+        });
+    </script>
+</body>
+</html>
