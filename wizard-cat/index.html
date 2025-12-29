@@ -2,125 +2,244 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Adventures of Wizard Cat & Magic Girl</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wizard Cat & Magic Girl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --deep-night: #0a0a14;
-            --starry-blue: #12132a;
-            --wizard-gold: #d4a853;
-            --wizard-gold-dim: #8a6d35;
-            --soft-white: #f0ebe3;
-            --page-shadow: rgba(0, 0, 0, 0.4);
+            --parchment: #f4e4c8;
+            --parchment-dark: #d4c4a8;
+            --ink: #2a1f1a;
+            --gold: #c9a227;
+            --gold-light: #e8d48b;
+            --magic-blue: #4a5f8c;
+            --magic-purple: #6b4c7a;
+            --shadow: rgba(42, 31, 26, 0.3);
         }
 
-        html, body, #root {
+        html, body {
             height: 100%;
-            width: 100%;
             overflow: hidden;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(135deg, #1a1520 0%, #2d1f3d 50%, #1a2030 100%);
         }
 
-        body {
-            font-family: 'Crimson Pro', Georgia, serif;
-            background: var(--deep-night);
-            color: var(--soft-white);
-        }
-
-        /* Starfield background */
-        .starfield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            animation-delay: var(--delay);
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: var(--base-opacity); transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Main container */
         .storybook {
             position: relative;
-            z-index: 1;
+            width: 100%;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(201, 162, 39, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(74, 95, 140, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #1a1520 0%, #2d1f3d 50%, #1a2030 100%);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-light);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 8s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--gold);
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                opacity: 0; 
+                transform: translateY(100vh) scale(0.5);
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { 
+                opacity: 0;
+                transform: translateY(-20vh) scale(1);
+            }
+        }
+
+        /* Title Screen */
+        .title-screen {
+            position: absolute;
+            inset: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            z-index: 100;
+            background: 
+                radial-gradient(ellipse at center, rgba(201, 162, 39, 0.2) 0%, transparent 60%),
+                linear-gradient(135deg, #1a1520 0%, #2d1f3d 50%, #1a2030 100%);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        /* Title */
+        .title-screen.hidden {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
         .title {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(1.2rem, 4vw, 2rem);
-            font-weight: 600;
-            color: var(--wizard-gold);
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.8rem, 8vw, 3.5rem);
+            color: var(--gold);
             text-align: center;
-            margin-bottom: 16px;
-            letter-spacing: 0.1em;
-            text-shadow: 0 0 20px rgba(212, 168, 83, 0.3);
+            text-shadow: 
+                0 0 20px rgba(201, 162, 39, 0.5),
+                0 4px 8px rgba(0,0,0,0.5);
+            margin-bottom: 0.5em;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            padding: 0 1rem;
         }
 
-        /* Page container */
-        .page-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: 3/4;
-            max-height: calc(100vh - 180px);
-            border-radius: 8px;
-            overflow: hidden;
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 20px rgba(201, 162, 39, 0.5), 0 4px 8px rgba(0,0,0,0.5); }
+            to { text-shadow: 0 0 40px rgba(201, 162, 39, 0.8), 0 4px 8px rgba(0,0,0,0.5); }
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: var(--parchment);
+            opacity: 0.8;
+            margin-bottom: 3rem;
+        }
+
+        .start-btn {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.1rem;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #a68520 100%);
+            border: 2px solid var(--gold-light);
+            color: var(--ink);
+            cursor: pointer;
+            border-radius: 4px;
             box-shadow: 
-                0 20px 60px var(--page-shadow),
-                0 0 1px rgba(212, 168, 83, 0.3),
-                inset 0 0 0 1px rgba(212, 168, 83, 0.1);
+                0 4px 20px rgba(201, 162, 39, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(201, 162, 39, 0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
+            50% { box-shadow: 0 4px 30px rgba(201, 162, 39, 0.7), inset 0 1px 0 rgba(255,255,255,0.3); }
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        }
+
+        .start-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Book Container */
+        .book-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            padding-bottom: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+        }
+
+        .book-container.visible {
+            opacity: 1;
+        }
+
+        /* Page Display */
+        .page-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+            overflow: hidden;
         }
 
         .page {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
+            max-width: 420px;
             height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            transform: scale(0.98);
+            max-height: 85vh;
+            background: var(--parchment);
+            border-radius: 4px 12px 12px 4px;
+            box-shadow: 
+                -4px 0 15px rgba(0,0,0,0.3),
+                0 0 30px rgba(0,0,0,0.2),
+                inset -2px 0 10px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            transform-origin: left center;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+            backface-visibility: hidden;
         }
 
-        .page.active {
-            opacity: 1;
-            transform: scale(1);
-            z-index: 2;
+        .page::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(90deg, 
+                rgba(0,0,0,0.15) 0%, 
+                rgba(0,0,0,0.05) 50%,
+                transparent 100%);
+            pointer-events: none;
         }
 
-        .page.exiting {
+        .page::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .page.turning-out {
+            transform: rotateY(-100deg);
             opacity: 0;
-            transform: scale(1.02);
-            z-index: 1;
+        }
+
+        .page.turning-in {
+            transform: rotateY(100deg);
+            opacity: 0;
+        }
+
+        /* Image Container */
+        .page-image-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--ink);
         }
 
         .page-image {
@@ -128,30 +247,47 @@
             height: 100%;
             object-fit: cover;
             object-position: center top;
+            transition: transform 0.3s ease;
         }
 
-        /* Caption area - ready for future use */
-        .caption {
+        .page-image-container::after {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 40px 20px 20px;
-            background: linear-gradient(to top, rgba(10, 10, 20, 0.95) 0%, rgba(10, 10, 20, 0.7) 60%, transparent 100%);
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            font-weight: 300;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 70%,
+                rgba(42, 31, 26, 0.3) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Text Area */
+        .page-text {
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(to bottom, var(--parchment-dark), var(--parchment));
+            border-top: 3px double var(--gold);
+            position: relative;
+        }
+
+        .page-text::before {
+            content: '✦';
+            position: absolute;
+            top: -0.7em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            color: var(--gold);
+            background: var(--parchment-dark);
+            padding: 0 0.5rem;
+        }
+
+        .story-text {
+            font-size: clamp(0.95rem, 3.5vw, 1.15rem);
             line-height: 1.6;
-            color: var(--soft-white);
+            color: var(--ink);
             text-align: center;
             font-style: italic;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
-        }
-
-        .page.active .caption:not(:empty) {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         /* Navigation */
@@ -159,30 +295,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
         }
 
         .nav-btn {
-            background: transparent;
-            border: 1px solid var(--wizard-gold-dim);
-            color: var(--wizard-gold);
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: rgba(201, 162, 39, 0.1);
+            color: var(--gold);
+            font-size: 1.5rem;
             cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .nav-btn:hover:not(:disabled) {
-            background: var(--wizard-gold);
-            color: var(--deep-night);
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(212, 168, 83, 0.4);
+            backdrop-filter: blur(4px);
         }
 
         .nav-btn:disabled {
@@ -190,354 +321,393 @@
             cursor: not-allowed;
         }
 
-        .nav-btn:active:not(:disabled) {
+        .nav-btn:not(:disabled):hover {
+            background: var(--gold);
+            color: var(--ink);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:not(:disabled):active {
             transform: scale(0.95);
         }
 
-        /* Page indicator */
         .page-indicator {
-            font-family: 'Cinzel', serif;
+            font-family: 'Cinzel Decorative', serif;
             font-size: 0.9rem;
-            color: var(--wizard-gold-dim);
-            letter-spacing: 0.2em;
+            color: var(--gold);
             min-width: 80px;
             text-align: center;
+            opacity: 0.9;
         }
 
-        /* Progress dots */
-        .progress-dots {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px;
-        }
-
-        .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--wizard-gold-dim);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dot:hover {
-            background: var(--wizard-gold);
-            transform: scale(1.3);
-        }
-
-        .dot.active {
-            background: var(--wizard-gold);
-            box-shadow: 0 0 10px rgba(212, 168, 83, 0.6);
-            transform: scale(1.2);
-        }
-
-        /* Touch hint on mobile */
-        .touch-hint {
+        /* Swipe hint */
+        .swipe-hint {
             position: absolute;
-            bottom: 10px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.75rem;
-            color: var(--wizard-gold-dim);
-            opacity: 0.6;
-            animation: fadeHint 3s ease-out forwards;
-            animation-delay: 2s;
+            color: var(--parchment);
+            font-size: 0.85rem;
+            opacity: 0;
+            animation: hintFade 4s ease-in-out 1s forwards;
+            pointer-events: none;
         }
 
-        @keyframes fadeHint {
-            to { opacity: 0; }
+        @keyframes hintFade {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 0.6; }
         }
 
-        /* Swipe areas for touch */
-        .swipe-zone {
+        /* Chapter markers */
+        .chapter-marker {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.7rem;
+            color: var(--gold);
+            opacity: 0.7;
+            letter-spacing: 0.1em;
+        }
+
+        /* Touch areas for navigation */
+        .touch-nav {
             position: absolute;
             top: 0;
-            height: 100%;
+            bottom: 80px;
             width: 25%;
             z-index: 10;
             cursor: pointer;
         }
 
-        .swipe-zone.left { left: 0; }
-        .swipe-zone.right { right: 0; }
+        .touch-nav.left {
+            left: 0;
+        }
+
+        .touch-nav.right {
+            right: 0;
+        }
 
         /* Loading state */
         .loading {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            color: var(--wizard-gold);
+            background: var(--parchment);
         }
 
-        @media (max-width: 600px) {
-            .storybook {
-                padding: 15px;
+        .loading::after {
+            content: '✦';
+            font-size: 2rem;
+            color: var(--gold);
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .page {
+                max-width: 500px;
             }
             
-            .title {
-                margin-bottom: 12px;
+            .nav-container {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .page-text {
+                padding: 0.75rem 1rem;
             }
             
-            .page-container {
-                max-height: calc(100vh - 160px);
+            .story-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Landscape optimization */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .page {
+                flex-direction: row;
+                max-width: 90%;
+                max-height: 90vh;
             }
             
-            .nav-btn {
-                width: 44px;
-                height: 44px;
+            .page-image-container {
+                width: 55%;
+                flex: none;
             }
             
-            .progress-dots {
-                gap: 6px;
+            .page-text {
+                width: 45%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-top: none;
+                border-left: 3px double var(--gold);
             }
             
-            .dot {
-                width: 5px;
-                height: 5px;
+            .page-text::before {
+                top: 50%;
+                left: -0.5em;
+                transform: translateY(-50%);
             }
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="storybook">
+        <!-- Floating particles -->
+        <div class="particles" id="particles"></div>
 
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!-- Title Screen -->
+        <div class="title-screen" id="titleScreen">
+            <h1 class="title">Wizard Cat<br>&amp; Magic Girl</h1>
+            <p class="subtitle">A Tale of Enchantment</p>
+            <button class="start-btn" id="startBtn">Begin the Journey</button>
+        </div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useCallback, useRef } = React;
+        <!-- Book -->
+        <div class="book-container" id="bookContainer">
+            <div class="page-wrapper" id="pageWrapper">
+                <!-- Pages will be inserted here -->
+            </div>
+            
+            <div class="nav-container">
+                <button class="nav-btn" id="prevBtn" aria-label="Previous page">❮</button>
+                <span class="page-indicator" id="pageIndicator">1 / 10</span>
+                <button class="nav-btn" id="nextBtn" aria-label="Next page">❯</button>
+            </div>
+        </div>
+    </div>
 
-        // ============================================
-        // STORY CONFIGURATION
-        // Edit this array to add/change pages and captions
-        // ============================================
-        const STORY_PAGES = [
+    <script>
+        // Story content
+        const pages = [
             {
-                image: "images/01-cozy-beginning.jpg",
-                caption: "" // Add caption text here when ready
+                image: '690DC6F7-C523-4312-A34E-F3C6679BC31D.png',
+                text: 'In a cozy cottage where sunlight danced with dust motes, there lived an ordinary tabby cat who dreamed of extraordinary things.',
+                chapter: 'Chapter One'
             },
             {
-                image: "images/02-magical-awakening.jpg",
-                caption: ""
+                image: 'F352CFF8-1D93-4C0B-96F6-C670B626A2CA.png',
+                text: 'One twilight eve, a golden glow appeared beyond the window—magic calling from the enchanted forest beyond.',
+                chapter: 'Chapter One'
             },
             {
-                image: "images/03-wizard-cat-revealed.jpg",
-                caption: ""
+                image: '863B6ED4-60CD-45F2-B5F7-4EBD8E6F235E.png',
+                text: 'Drawn by curiosity older than cat-kind itself, he ventured into the moonlit woods where fireflies spelled ancient secrets.',
+                chapter: 'Chapter Two'
             },
             {
-                image: "images/04-epic-adventure.jpg",
-                caption: ""
+                image: '08492DAD-6040-41ED-A661-0B4E00E6C655.png',
+                text: 'There, upon a moss-covered stump, lay a tome of forgotten spells—and a wand that hummed with waiting power.',
+                chapter: 'Chapter Two'
             },
             {
-                image: "images/06-party-time.jpg",
-                caption: ""
+                image: '19ED5D19-3CFC-407D-AE3E-3D85BD0924BA.png',
+                text: 'The magic chose him. Cloak and hat materialized from starlight as ancient power recognized a worthy heart.',
+                chapter: 'Chapter Three'
             },
             {
-                image: "images/07-battle-together.jpg",
-                caption: ""
+                image: 'EE60311A-C374-49F0-8D4B-EF7A323CD7D3.png',
+                text: 'He was no longer just a cat. He was Wizard Cat—guardian of the threshold between worlds.',
+                chapter: 'Chapter Three'
             },
             {
-                image: "images/08-wizard-cat-battles.jpg",
-                caption: ""
+                image: 'F2557400-CFAA-4C2C-9429-A10D7F3792EF.png',
+                text: 'But darkness gathered in the shadows, drawn to the light of new magic. Yellow eyes watched from the gloom.',
+                chapter: 'Chapter Four'
             },
             {
-                image: "images/09-tea-time.jpg",
-                caption: ""
+                image: '4C4D75B0-7FCF-42AD-800A-499514D3B8F1.png',
+                text: 'Then came the girl, brave and bright, her own spark of magic answering the call. Together they stood.',
+                chapter: 'Chapter Four'
             },
             {
-                image: "images/10-magic-duel.jpg",
-                caption: ""
+                image: '8567959D-2D8D-4D3D-AFA6-214AD2D5D51D.png',
+                text: 'Blue light and golden fire intertwined as cat and girl fought back the shadows with the strength of their bond.',
+                chapter: 'Chapter Five'
+            },
+            {
+                image: 'FB2EA8AC-6E83-4D53-BF4E-059629F9B48A.png',
+                text: 'And so began their legend—Wizard Cat and Magic Girl, guardians of wonder, proof that magic finds those who believe.',
+                chapter: 'The End'
             }
         ];
 
-        const STORY_TITLE = "The Adventures of Wizard Cat & Magic Girl";
-        // ============================================
+        // DOM elements
+        const titleScreen = document.getElementById('titleScreen');
+        const bookContainer = document.getElementById('bookContainer');
+        const pageWrapper = document.getElementById('pageWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const startBtn = document.getElementById('startBtn');
+        const particlesContainer = document.getElementById('particles');
 
-        // Starfield component
-        function Starfield() {
-            const stars = Array.from({ length: 80 }, (_, i) => ({
-                id: i,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                size: Math.random() * 2 + 1,
-                duration: Math.random() * 3 + 2,
-                delay: Math.random() * 3,
-                baseOpacity: Math.random() * 0.5 + 0.2
-            }));
+        let currentPage = 0;
+        let isAnimating = false;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-            return (
-                <div className="starfield">
-                    {stars.map(star => (
-                        <div
-                            key={star.id}
-                            className="star"
-                            style={{
-                                left: star.left,
-                                top: star.top,
-                                width: star.size,
-                                height: star.size,
-                                '--duration': `${star.duration}s`,
-                                '--delay': `${star.delay}s`,
-                                '--base-opacity': star.baseOpacity
-                            }}
-                        />
-                    ))}
-                </div>
-            );
-        }
-
-        // Main Storybook component
-        function Storybook() {
-            const [currentPage, setCurrentPage] = useState(0);
-            const [exitingPage, setExitingPage] = useState(null);
-            const [imagesLoaded, setImagesLoaded] = useState(false);
-            const touchStartX = useRef(null);
-            const containerRef = useRef(null);
-
-            const totalPages = STORY_PAGES.length;
-
-            // Preload images
-            useEffect(() => {
-                let loadedCount = 0;
-                STORY_PAGES.forEach(page => {
-                    const img = new Image();
-                    img.onload = img.onerror = () => {
-                        loadedCount++;
-                        if (loadedCount === STORY_PAGES.length) {
-                            setImagesLoaded(true);
-                        }
-                    };
-                    img.src = page.image;
-                });
-            }, []);
-
-            const goToPage = useCallback((newPage) => {
-                if (newPage < 0 || newPage >= totalPages || newPage === currentPage) return;
-                setExitingPage(currentPage);
-                setCurrentPage(newPage);
-                setTimeout(() => setExitingPage(null), 500);
-            }, [currentPage, totalPages]);
-
-            const nextPage = useCallback(() => goToPage(currentPage + 1), [currentPage, goToPage]);
-            const prevPage = useCallback(() => goToPage(currentPage - 1), [currentPage, goToPage]);
-
-            // Keyboard navigation
-            useEffect(() => {
-                const handleKeyDown = (e) => {
-                    if (e.key === 'ArrowRight' || e.key === ' ') {
-                        e.preventDefault();
-                        nextPage();
-                    } else if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        prevPage();
-                    }
-                };
-                window.addEventListener('keydown', handleKeyDown);
-                return () => window.removeEventListener('keydown', handleKeyDown);
-            }, [nextPage, prevPage]);
-
-            // Touch handling
-            const handleTouchStart = (e) => {
-                touchStartX.current = e.touches[0].clientX;
-            };
-
-            const handleTouchEnd = (e) => {
-                if (touchStartX.current === null) return;
-                const touchEndX = e.changedTouches[0].clientX;
-                const diff = touchStartX.current - touchEndX;
-                
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0) nextPage();
-                    else prevPage();
-                }
-                touchStartX.current = null;
-            };
-
-            if (!imagesLoaded) {
-                return (
-                    <>
-                        <Starfield />
-                        <div className="storybook">
-                            <div className="loading">✨ Summoning magic...</div>
-                        </div>
-                    </>
-                );
+        // Create particles
+        function createParticles() {
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
             }
-
-            return (
-                <>
-                    <Starfield />
-                    <div className="storybook">
-                        <h1 className="title">{STORY_TITLE}</h1>
-                        
-                        <div 
-                            className="page-container"
-                            ref={containerRef}
-                            onTouchStart={handleTouchStart}
-                            onTouchEnd={handleTouchEnd}
-                        >
-                            {STORY_PAGES.map((page, index) => (
-                                <div
-                                    key={index}
-                                    className={`page ${index === currentPage ? 'active' : ''} ${index === exitingPage ? 'exiting' : ''}`}
-                                >
-                                    <img 
-                                        src={page.image} 
-                                        alt={`Page ${index + 1}`}
-                                        className="page-image"
-                                    />
-                                    {page.caption && (
-                                        <div className="caption">{page.caption}</div>
-                                    )}
-                                </div>
-                            ))}
-                            
-                            {/* Clickable zones for desktop */}
-                            <div className="swipe-zone left" onClick={prevPage} />
-                            <div className="swipe-zone right" onClick={nextPage} />
-                        </div>
-
-                        <div className="nav-container">
-                            <button 
-                                className="nav-btn" 
-                                onClick={prevPage}
-                                disabled={currentPage === 0}
-                                aria-label="Previous page"
-                            >
-                                ←
-                            </button>
-                            
-                            <span className="page-indicator">
-                                {currentPage + 1} / {totalPages}
-                            </span>
-                            
-                            <button 
-                                className="nav-btn" 
-                                onClick={nextPage}
-                                disabled={currentPage === totalPages - 1}
-                                aria-label="Next page"
-                            >
-                                →
-                            </button>
-                        </div>
-
-                        <div className="progress-dots">
-                            {STORY_PAGES.map((_, index) => (
-                                <div
-                                    key={index}
-                                    className={`dot ${index === currentPage ? 'active' : ''}`}
-                                    onClick={() => goToPage(index)}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </>
-            );
         }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<Storybook />);
+        // Create page element
+        function createPageElement(pageData, index) {
+            const page = document.createElement('div');
+            page.className = 'page';
+            page.dataset.index = index;
+            
+            // Get the correct image path
+            const imagePath = pageData.image;
+            
+            page.innerHTML = `
+                <div class="chapter-marker">${pageData.chapter}</div>
+                <div class="page-image-container">
+                    <img class="page-image" src="${imagePath}" alt="Story illustration ${index + 1}" loading="${index < 2 ? 'eager' : 'lazy'}">
+                </div>
+                <div class="page-text">
+                    <p class="story-text">${pageData.text}</p>
+                </div>
+            `;
+            
+            return page;
+        }
+
+        // Initialize book
+        function initBook() {
+            // Create all pages
+            pages.forEach((pageData, index) => {
+                const pageEl = createPageElement(pageData, index);
+                if (index !== 0) {
+                    pageEl.classList.add('turning-in');
+                }
+                pageWrapper.appendChild(pageEl);
+            });
+
+            // Add touch navigation areas
+            const touchLeft = document.createElement('div');
+            touchLeft.className = 'touch-nav left';
+            touchLeft.addEventListener('click', goToPrev);
+            
+            const touchRight = document.createElement('div');
+            touchRight.className = 'touch-nav right';
+            touchRight.addEventListener('click', goToNext);
+            
+            pageWrapper.appendChild(touchLeft);
+            pageWrapper.appendChild(touchRight);
+
+            updateNavigation();
+        }
+
+        // Navigate to page
+        function goToPage(newIndex, direction) {
+            if (isAnimating || newIndex < 0 || newIndex >= pages.length) return;
+            if (newIndex === currentPage) return;
+
+            isAnimating = true;
+
+            const allPages = pageWrapper.querySelectorAll('.page');
+            const currentPageEl = allPages[currentPage];
+            const newPageEl = allPages[newIndex];
+
+            // Animate out current page
+            currentPageEl.classList.add(direction === 'next' ? 'turning-out' : 'turning-in');
+            
+            // Prepare and animate in new page
+            newPageEl.classList.remove('turning-out', 'turning-in');
+
+            currentPage = newIndex;
+            updateNavigation();
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 600);
+        }
+
+        function goToNext() {
+            goToPage(currentPage + 1, 'next');
+        }
+
+        function goToPrev() {
+            goToPage(currentPage - 1, 'prev');
+        }
+
+        // Update navigation state
+        function updateNavigation() {
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === pages.length - 1;
+            pageIndicator.textContent = `${currentPage + 1} / ${pages.length}`;
+        }
+
+        // Touch/swipe handling
+        function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    goToNext();
+                } else {
+                    goToPrev();
+                }
+            }
+        }
+
+        // Keyboard navigation
+        function handleKeydown(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                goToNext();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                goToPrev();
+            }
+        }
+
+        // Start the story
+        function startStory() {
+            titleScreen.classList.add('hidden');
+            bookContainer.classList.add('visible');
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', startStory);
+        prevBtn.addEventListener('click', goToPrev);
+        nextBtn.addEventListener('click', goToNext);
+        document.addEventListener('keydown', handleKeydown);
+        pageWrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+        pageWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+        // Initialize
+        createParticles();
+        initBook();
     </script>
 </body>
 </html>
