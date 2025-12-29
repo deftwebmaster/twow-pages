@@ -59,8 +59,19 @@
             background: var(--gold-light);
             border-radius: 50%;
             opacity: 0;
-            animation: float 8s ease-in-out infinite;
             box-shadow: 0 0 6px var(--gold);
+        }
+
+        .particle.floating {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .particle.converging {
+            animation: converge 2s ease-in-out forwards;
+        }
+
+        .particle.dispersing {
+            animation: disperse 1s ease-out forwards;
         }
 
         @keyframes float {
@@ -73,6 +84,31 @@
             100% { 
                 opacity: 0;
                 transform: translateY(-20vh) scale(1);
+            }
+        }
+
+        @keyframes converge {
+            0% {
+                opacity: 0;
+                transform: translate(var(--start-x), var(--start-y)) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        @keyframes disperse {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--end-x), var(--end-y)) scale(0.3);
             }
         }
 
@@ -97,6 +133,17 @@
             pointer-events: none;
         }
 
+        .title-container {
+            position: relative;
+            text-align: center;
+            margin-bottom: 0.5em;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .title {
             font-family: 'Cinzel Decorative', serif;
             font-size: clamp(1.8rem, 8vw, 3.5rem);
@@ -105,9 +152,25 @@
             text-shadow: 
                 0 0 20px rgba(201, 162, 39, 0.5),
                 0 4px 8px rgba(0,0,0,0.5);
-            margin-bottom: 0.5em;
-            animation: titleGlow 3s ease-in-out infinite alternate;
             padding: 0 1rem;
+        }
+
+        .title-word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: none;
+        }
+
+        .title-word.visible {
+            animation: wordFadeIn 0.6s ease forwards;
+        }
+
+        @keyframes wordFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes titleGlow {
@@ -120,8 +183,13 @@
             font-style: italic;
             font-size: clamp(1rem, 4vw, 1.5rem);
             color: var(--parchment);
-            opacity: 0.8;
+            opacity: 0;
             margin-bottom: 3rem;
+            transition: opacity 0.8s ease;
+        }
+
+        .subtitle.visible {
+            opacity: 0.8;
         }
 
         .start-btn {
@@ -137,6 +205,15 @@
                 0 4px 20px rgba(201, 162, 39, 0.4),
                 inset 0 1px 0 rgba(255,255,255,0.3);
             transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .start-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -154,6 +231,182 @@
             transform: scale(0.98);
         }
 
+        /* Dedication Screen */
+        .dedication-screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            background: 
+                radial-gradient(ellipse at center, rgba(201, 162, 39, 0.15) 0%, transparent 60%),
+                linear-gradient(135deg, #1a1520 0%, #2d1f3d 50%, #1a2030 100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            padding: 2rem;
+        }
+
+        .dedication-screen.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .dedication-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dedication-ornament {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.3s forwards;
+        }
+
+        .dedication-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            color: var(--parchment);
+            text-align: center;
+            line-height: 1.8;
+            max-width: 400px;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.6s forwards;
+        }
+
+        .dedication-names {
+            font-family: 'Cinzel Decorative', serif;
+            font-style: normal;
+            color: var(--gold);
+            display: block;
+            margin: 0.5em 0 0.2em 0;
+            font-size: 1.1em;
+        }
+
+        .dedication-aside {
+            display: block;
+            font-size: 0.75em;
+            color: var(--gold-light);
+            opacity: 0.85;
+            margin-bottom: 0.5em;
+        }
+
+        .dedication-ornament-bottom {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1s forwards;
+        }
+
+        .continue-hint {
+            position: absolute;
+            bottom: 15%;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            color: var(--gold);
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards, pulse 2s ease-in-out 3s infinite;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* End Screen */
+        .end-screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            background: 
+                radial-gradient(ellipse at center, rgba(201, 162, 39, 0.2) 0%, transparent 60%),
+                linear-gradient(135deg, #1a1520 0%, #2d1f3d 50%, #1a2030 100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            padding: 2rem;
+        }
+
+        .end-screen.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .end-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(2rem, 10vw, 4rem);
+            color: var(--gold);
+            text-align: center;
+            text-shadow: 
+                0 0 30px rgba(201, 162, 39, 0.6),
+                0 4px 8px rgba(0,0,0,0.5);
+            margin-bottom: 0.3em;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.3s forwards;
+        }
+
+        .end-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            color: var(--parchment);
+            opacity: 0;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1s ease 0.8s forwards;
+        }
+
+        .replay-btn {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1rem;
+            padding: 0.9rem 2.5rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #a68520 100%);
+            border: 2px solid var(--gold-light);
+            color: var(--ink);
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 
+                0 4px 20px rgba(201, 162, 39, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.2s forwards;
+            margin-bottom: 3rem;
+        }
+
+        .replay-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        }
+
+        .made-with-love {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--parchment);
+            opacity: 0;
+            text-align: center;
+            animation: fadeIn 1s ease 1.6s forwards;
+        }
+
+        .made-with-love .heart {
+            color: #c25b5b;
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
         /* Book Container */
         .book-container {
             flex: 1;
@@ -162,11 +415,65 @@
             padding: 1rem;
             padding-bottom: 0;
             opacity: 0;
+            pointer-events: none;
             transition: opacity 0.5s ease 0.3s;
         }
 
         .book-container.visible {
             opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Progress Bar with Sparkles */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-star {
+            width: 12px;
+            height: 12px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .progress-star::before {
+            content: '✦';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--ink);
+            opacity: 0.3;
+            transition: all 0.4s ease;
+        }
+
+        .progress-star.active::before {
+            color: var(--gold);
+            opacity: 1;
+            text-shadow: 0 0 8px var(--gold);
+            animation: starPop 0.4s ease;
+        }
+
+        .progress-star.current::before {
+            animation: starPop 0.4s ease, starGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes starPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes starGlow {
+            0%, 100% { text-shadow: 0 0 8px var(--gold); }
+            50% { text-shadow: 0 0 15px var(--gold), 0 0 25px var(--gold-light); }
         }
 
         /* Page Display */
@@ -185,7 +492,7 @@
             width: 100%;
             max-width: 420px;
             height: 100%;
-            max-height: 85vh;
+            max-height: 80vh;
             background: var(--parchment);
             border-radius: 4px 12px 12px 4px;
             box-shadow: 
@@ -212,6 +519,7 @@
                 rgba(0,0,0,0.05) 50%,
                 transparent 100%);
             pointer-events: none;
+            z-index: 5;
         }
 
         .page::after {
@@ -340,24 +648,6 @@
             opacity: 0.9;
         }
 
-        /* Swipe hint */
-        .swipe-hint {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--parchment);
-            font-size: 0.85rem;
-            opacity: 0;
-            animation: hintFade 4s ease-in-out 1s forwards;
-            pointer-events: none;
-        }
-
-        @keyframes hintFade {
-            0%, 100% { opacity: 0; }
-            20%, 80% { opacity: 0.6; }
-        }
-
         /* Chapter markers */
         .chapter-marker {
             position: absolute;
@@ -368,6 +658,7 @@
             color: var(--gold);
             opacity: 0.7;
             letter-spacing: 0.1em;
+            z-index: 10;
         }
 
         /* Touch areas for navigation */
@@ -388,26 +679,227 @@
             right: 0;
         }
 
-        /* Loading state */
-        .loading {
-            position: absolute;
+        /* Character Modal */
+        .modal-overlay {
+            position: fixed;
             inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 0 40px rgba(201, 162, 39, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--gold);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
             background: var(--parchment);
+            color: var(--ink);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
         }
 
-        .loading::after {
-            content: '✦';
-            font-size: 2rem;
+        .modal-close:hover {
+            background: var(--gold);
+            color: var(--parchment);
+        }
+
+        /* Character Select View */
+        .character-select {
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .character-select-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.3rem;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+
+        .character-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .character-btn {
+            flex: 1;
+            min-width: 140px;
+            max-width: 160px;
+            padding: 1rem;
+            background: var(--parchment);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .character-btn:hover {
+            background: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(201, 162, 39, 0.4);
+        }
+
+        .character-btn-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+        }
+
+        .character-btn-name {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.85rem;
+            color: var(--ink);
+        }
+
+        /* Character Profile View */
+        .character-profile {
+            display: none;
+        }
+
+        .character-profile.visible {
+            display: block;
+        }
+
+        .character-profile-header {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .character-profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .character-profile-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--parchment), transparent);
+        }
+
+        .character-back-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: rgba(244, 228, 200, 0.9);
+            color: var(--ink);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .character-back-btn:hover {
+            background: var(--gold);
+        }
+
+        .character-profile-body {
+            padding: 1.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .character-profile-name {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.5rem;
+            color: var(--ink);
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .character-profile-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
             color: var(--gold);
-            animation: spin 2s linear infinite;
+            text-align: center;
+            margin-bottom: 1rem;
         }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .character-profile-bio {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink);
+            text-align: left;
+        }
+
+        .characters-link {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.9rem;
+            padding: 0.75rem 2rem;
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            cursor: pointer;
+            border-radius: 4px;
+            opacity: 0;
+            display: inline-block;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+
+        .characters-link:hover {
+            background: var(--gold);
+            color: var(--ink);
+            transform: scale(1.05);
         }
 
         /* Responsive adjustments */
@@ -419,6 +911,15 @@
             .nav-container {
                 gap: 2rem;
             }
+
+            .progress-star {
+                width: 16px;
+                height: 16px;
+            }
+
+            .progress-star::before {
+                font-size: 14px;
+            }
         }
 
         @media (max-height: 600px) {
@@ -428,6 +929,11 @@
             
             .story-text {
                 font-size: 0.9rem;
+            }
+
+            .progress-container {
+                padding: 0.3rem 1rem;
+                margin-bottom: 0.3rem;
             }
         }
 
@@ -468,13 +974,95 @@
 
         <!-- Title Screen -->
         <div class="title-screen" id="titleScreen">
-            <h1 class="title">Wizard Cat<br>&amp; Magic Girl</h1>
-            <p class="subtitle">A Tale of Enchantment</p>
+            <div class="title-container" id="titleContainer">
+                <h1 class="title" id="titleText"></h1>
+            </div>
+            <p class="subtitle" id="subtitle">A Tale of Enchantment</p>
             <button class="start-btn" id="startBtn">Begin the Journey</button>
+        </div>
+
+        <!-- Dedication Screen -->
+        <div class="dedication-screen" id="dedicationScreen">
+            <div class="dedication-ornament">✦ ❧ ✦</div>
+            <p class="dedication-text">
+                For
+                <span class="dedication-names">Amy & Grayson</span>
+                <span class="dedication-aside">(who is not fat, just fluffy)</span>
+                May your adventures<br>always be magical
+            </p>
+            <div class="dedication-ornament-bottom">~ ✦ ~</div>
+            <p class="continue-hint">tap to continue</p>
+        </div>
+
+        <!-- End Screen -->
+        <div class="end-screen" id="endScreen">
+            <h2 class="end-title">The End</h2>
+            <p class="end-subtitle">...for now</p>
+            <button class="replay-btn" id="replayBtn">✦ Read Again ✦</button>
+            <p class="made-with-love">
+                Made with <span class="heart">♥</span> by Matt<br>
+                December 2025
+            </p>
+            <button class="characters-link" id="charactersLink">✦ Meet the Characters ✦</button>
+        </div>
+
+        <!-- Character Modal -->
+        <div class="modal-overlay" id="characterModal">
+            <div class="modal-content">
+                <button class="modal-close" id="modalClose">✕</button>
+                
+                <!-- Character Select -->
+                <div class="character-select" id="characterSelect">
+                    <h3 class="character-select-title">Meet the Characters</h3>
+                    <div class="character-buttons">
+                        <button class="character-btn" data-character="wizard-cat">
+                            <img class="character-btn-img" src="portrait-wizard-cat.png" alt="Wizard Cat">
+                            <span class="character-btn-name">Wizard Cat</span>
+                        </button>
+                        <button class="character-btn" data-character="magic-girl">
+                            <img class="character-btn-img" src="portrait-magic-girl.png" alt="Magic Girl">
+                            <span class="character-btn-name">Magic Girl</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Wizard Cat Profile -->
+                <div class="character-profile" id="profileWizardCat">
+                    <div class="character-profile-header">
+                        <button class="character-back-btn" data-back>❮</button>
+                        <img class="character-profile-img" src="portrait-wizard-cat.png" alt="Wizard Cat">
+                    </div>
+                    <div class="character-profile-body">
+                        <h3 class="character-profile-name">Wizard Cat</h3>
+                        <p class="character-profile-title">Grayson</p>
+                        <p class="character-profile-bio">
+                            Guardian of the threshold between worlds, Wizard Cat is a master of ancient magic and advanced napping techniques. His magnificent floof is often mistaken for excess weight by those who don't understand that raw magical power requires substantial insulation. When not defending the realm from shadows, he can be found exactly three inches behind his favorite person at all times. His hobbies include supervising, judging, and being right where you're about to step.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Magic Girl Profile -->
+                <div class="character-profile" id="profileMagicGirl">
+                    <div class="character-profile-header">
+                        <button class="character-back-btn" data-back>❮</button>
+                        <img class="character-profile-img" src="portrait-magic-girl.png" alt="Magic Girl">
+                    </div>
+                    <div class="character-profile-body">
+                        <h3 class="character-profile-name">Magic Girl</h3>
+                        <p class="character-profile-title">Amy</p>
+                        <p class="character-profile-bio">
+                            Amy—wait, we mean Magic Girl—is a creative badass whose golden fire magic is rivaled only by her ability to craft entire miniature worlds with her bare hands. Some say she discovered her powers while making tiny furniture; others say the tiny furniture was the first spell she ever cast. When she's not battling darkness alongside her fluffy companion, she enjoys relaxation herbs and proving that real magic is making something from nothing.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Book -->
         <div class="book-container" id="bookContainer">
+            <!-- Progress Stars -->
+            <div class="progress-container" id="progressContainer"></div>
+
             <div class="page-wrapper" id="pageWrapper">
                 <!-- Pages will be inserted here -->
             </div>
@@ -488,85 +1076,194 @@
     </div>
 
     <script>
-        // Story content
+        // Story content with human-friendly image names and correct pronouns for Grayson (he/him)
         const pages = [
             {
-                image: '690DC6F7-C523-4312-A34E-F3C6679BC31D.png',
-                text: 'In a cozy cottage where sunlight danced with dust motes, there lived an ordinary tabby cat who dreamed of extraordinary things.',
+                image: '01-window-daydream.png',
+                text: 'In a cozy cottage where sunlight danced with dust motes, there lived an ordinary tabby cat named Grayson who dreamed of extraordinary things.',
                 chapter: 'Chapter One'
             },
             {
-                image: 'F352CFF8-1D93-4C0B-96F6-C670B626A2CA.png',
-                text: 'One twilight eve, a golden glow appeared beyond the window—magic calling from the enchanted forest beyond.',
+                image: '02-twilight-calling.png',
+                text: 'One twilight eve, a golden glow appeared beyond the window—magic calling to him from the enchanted forest beyond.',
                 chapter: 'Chapter One'
             },
             {
-                image: '863B6ED4-60CD-45F2-B5F7-4EBD8E6F235E.png',
+                image: '03-moonlit-forest.png',
                 text: 'Drawn by curiosity older than cat-kind itself, he ventured into the moonlit woods where fireflies spelled ancient secrets.',
                 chapter: 'Chapter Two'
             },
             {
-                image: '08492DAD-6040-41ED-A661-0B4E00E6C655.png',
+                image: '04-discovery.png',
                 text: 'There, upon a moss-covered stump, lay a tome of forgotten spells—and a wand that hummed with waiting power.',
                 chapter: 'Chapter Two'
             },
             {
-                image: '19ED5D19-3CFC-407D-AE3E-3D85BD0924BA.png',
+                image: '05-transformation.png',
                 text: 'The magic chose him. Cloak and hat materialized from starlight as ancient power recognized a worthy heart.',
                 chapter: 'Chapter Three'
             },
             {
-                image: 'EE60311A-C374-49F0-8D4B-EF7A323CD7D3.png',
+                image: '06-wizard-cat.png',
                 text: 'He was no longer just a cat. He was Wizard Cat—guardian of the threshold between worlds.',
                 chapter: 'Chapter Three'
             },
             {
-                image: 'F2557400-CFAA-4C2C-9429-A10D7F3792EF.png',
+                image: '07-darkness-gathers.png',
                 text: 'But darkness gathered in the shadows, drawn to the light of new magic. Yellow eyes watched from the gloom.',
                 chapter: 'Chapter Four'
             },
             {
-                image: '4C4D75B0-7FCF-42AD-800A-499514D3B8F1.png',
+                image: '08-magic-girl-arrives.png',
                 text: 'Then came the girl, brave and bright, her own spark of magic answering the call. Together they stood.',
                 chapter: 'Chapter Four'
             },
             {
-                image: '8567959D-2D8D-4D3D-AFA6-214AD2D5D51D.png',
+                image: '09-battle.png',
                 text: 'Blue light and golden fire intertwined as cat and girl fought back the shadows with the strength of their bond.',
                 chapter: 'Chapter Five'
             },
             {
-                image: 'FB2EA8AC-6E83-4D53-BF4E-059629F9B48A.png',
+                image: '10-legend-begins.png',
                 text: 'And so began their legend—Wizard Cat and Magic Girl, guardians of wonder, proof that magic finds those who believe.',
                 chapter: 'The End'
             }
         ];
 
+        // Title words for animated reveal
+        const titleWords = ['Wizard', 'Cat', '&', 'Magic', 'Girl'];
+
         // DOM elements
         const titleScreen = document.getElementById('titleScreen');
+        const titleText = document.getElementById('titleText');
+        const subtitle = document.getElementById('subtitle');
+        const startBtn = document.getElementById('startBtn');
+        const dedicationScreen = document.getElementById('dedicationScreen');
+        const endScreen = document.getElementById('endScreen');
+        const replayBtn = document.getElementById('replayBtn');
         const bookContainer = document.getElementById('bookContainer');
         const pageWrapper = document.getElementById('pageWrapper');
+        const progressContainer = document.getElementById('progressContainer');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const pageIndicator = document.getElementById('pageIndicator');
-        const startBtn = document.getElementById('startBtn');
         const particlesContainer = document.getElementById('particles');
 
         let currentPage = 0;
         let isAnimating = false;
         let touchStartX = 0;
         let touchEndX = 0;
+        let particles = [];
 
-        // Create particles
-        function createParticles() {
-            for (let i = 0; i < 15; i++) {
+        // Create particles for title animation
+        function createTitleParticles() {
+            particles = [];
+            for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
+                
+                // Random starting positions around the edges
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 150 + Math.random() * 100;
+                const startX = Math.cos(angle) * distance;
+                const startY = Math.sin(angle) * distance;
+                
+                particle.style.setProperty('--start-x', `${startX}px`);
+                particle.style.setProperty('--start-y', `${startY}px`);
+                particle.style.left = '50%';
+                particle.style.top = '40%';
+                particle.style.animationDelay = `${i * 0.05}s`;
+                
+                particlesContainer.appendChild(particle);
+                particles.push(particle);
+            }
+        }
+
+        // Animate title sequence
+        function animateTitleSequence() {
+            // Build title with word spans
+            titleText.innerHTML = titleWords.map((word, i) => 
+                `<span class="title-word" style="animation-delay: ${i * 0.18}s">${word}</span>${i === 1 ? '<br>' : ' '}`
+            ).join('');
+
+            // Start particle convergence
+            particles.forEach(p => p.classList.add('converging'));
+
+            // Reveal words one by one (faster)
+            const wordSpans = titleText.querySelectorAll('.title-word');
+            wordSpans.forEach((span, i) => {
+                setTimeout(() => {
+                    span.classList.add('visible');
+                }, i * 180);
+            });
+
+            // Show subtitle after title
+            setTimeout(() => {
+                subtitle.classList.add('visible');
+            }, titleWords.length * 180 + 300);
+
+            // Show button after subtitle
+            setTimeout(() => {
+                startBtn.classList.add('visible');
+                // Start floating particles
+                particles.forEach(p => {
+                    p.classList.remove('converging');
+                    p.classList.add('floating');
+                });
+            }, titleWords.length * 180 + 600);
+        }
+
+        // Disperse particles when starting
+        function disperseParticles() {
+            particles.forEach(p => {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 200 + Math.random() * 150;
+                p.style.setProperty('--end-x', `${Math.cos(angle) * distance}px`);
+                p.style.setProperty('--end-y', `${Math.sin(angle) * distance}px`);
+                p.classList.remove('floating');
+                p.classList.add('dispersing');
+            });
+        }
+
+        // Create floating particles for story pages
+        function createFloatingParticles() {
+            particlesContainer.innerHTML = '';
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle floating';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 8 + 's';
                 particle.style.animationDuration = (6 + Math.random() * 4) + 's';
                 particlesContainer.appendChild(particle);
             }
+        }
+
+        // Create progress stars
+        function createProgressStars() {
+            progressContainer.innerHTML = '';
+            pages.forEach((_, i) => {
+                const star = document.createElement('div');
+                star.className = 'progress-star';
+                star.dataset.index = i;
+                if (i === 0) {
+                    star.classList.add('active', 'current');
+                }
+                progressContainer.appendChild(star);
+            });
+        }
+
+        // Update progress stars
+        function updateProgressStars() {
+            const stars = progressContainer.querySelectorAll('.progress-star');
+            stars.forEach((star, i) => {
+                star.classList.remove('current');
+                if (i <= currentPage) {
+                    star.classList.add('active');
+                }
+                if (i === currentPage) {
+                    star.classList.add('current');
+                }
+            });
         }
 
         // Create page element
@@ -575,13 +1272,10 @@
             page.className = 'page';
             page.dataset.index = index;
             
-            // Get the correct image path
-            const imagePath = pageData.image;
-            
             page.innerHTML = `
                 <div class="chapter-marker">${pageData.chapter}</div>
                 <div class="page-image-container">
-                    <img class="page-image" src="${imagePath}" alt="Story illustration ${index + 1}" loading="${index < 2 ? 'eager' : 'lazy'}">
+                    <img class="page-image" src="${pageData.image}" alt="Story illustration ${index + 1}" loading="${index < 2 ? 'eager' : 'lazy'}">
                 </div>
                 <div class="page-text">
                     <p class="story-text">${pageData.text}</p>
@@ -593,6 +1287,8 @@
 
         // Initialize book
         function initBook() {
+            pageWrapper.innerHTML = '';
+            
             // Create all pages
             pages.forEach((pageData, index) => {
                 const pageEl = createPageElement(pageData, index);
@@ -614,6 +1310,7 @@
             pageWrapper.appendChild(touchLeft);
             pageWrapper.appendChild(touchRight);
 
+            createProgressStars();
             updateNavigation();
         }
 
@@ -636,6 +1333,7 @@
 
             currentPage = newIndex;
             updateNavigation();
+            updateProgressStars();
 
             setTimeout(() => {
                 isAnimating = false;
@@ -643,7 +1341,12 @@
         }
 
         function goToNext() {
-            goToPage(currentPage + 1, 'next');
+            if (currentPage === pages.length - 1) {
+                // Show end screen
+                showEndScreen();
+            } else {
+                goToPage(currentPage + 1, 'next');
+            }
         }
 
         function goToPrev() {
@@ -653,8 +1356,68 @@
         // Update navigation state
         function updateNavigation() {
             prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage === pages.length - 1;
+            nextBtn.disabled = false; // Always enabled to reach end screen
             pageIndicator.textContent = `${currentPage + 1} / ${pages.length}`;
+        }
+
+        // Show dedication screen
+        function showDedication() {
+            disperseParticles();
+            titleScreen.classList.add('hidden');
+            
+            setTimeout(() => {
+                dedicationScreen.classList.add('visible');
+            }, 400);
+        }
+
+        // Show story
+        function showStory() {
+            dedicationScreen.classList.add('hidden');
+            dedicationScreen.classList.remove('visible');
+            
+            setTimeout(() => {
+                createFloatingParticles();
+                bookContainer.classList.add('visible');
+            }, 400);
+        }
+
+        // Show end screen
+        function showEndScreen() {
+            bookContainer.classList.remove('visible');
+            
+            setTimeout(() => {
+                endScreen.classList.add('visible');
+            }, 400);
+        }
+
+        // Restart the story
+        function restartStory() {
+            endScreen.classList.remove('visible');
+            currentPage = 0;
+            
+            // Reset all pages
+            const allPages = pageWrapper.querySelectorAll('.page');
+            allPages.forEach((page, i) => {
+                page.classList.remove('turning-out', 'turning-in');
+                if (i !== 0) {
+                    page.classList.add('turning-in');
+                }
+            });
+
+            // Reset progress
+            const stars = progressContainer.querySelectorAll('.progress-star');
+            stars.forEach((star, i) => {
+                star.classList.remove('active', 'current');
+                if (i === 0) {
+                    star.classList.add('active', 'current');
+                }
+            });
+
+            updateNavigation();
+            
+            setTimeout(() => {
+                bookContainer.classList.add('visible');
+            }, 400);
         }
 
         // Touch/swipe handling
@@ -684,21 +1447,21 @@
         function handleKeydown(e) {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 e.preventDefault();
-                goToNext();
+                if (bookContainer.classList.contains('visible')) {
+                    goToNext();
+                } else if (dedicationScreen.classList.contains('visible')) {
+                    showStory();
+                }
             } else if (e.key === 'ArrowLeft') {
                 e.preventDefault();
                 goToPrev();
             }
         }
 
-        // Start the story
-        function startStory() {
-            titleScreen.classList.add('hidden');
-            bookContainer.classList.add('visible');
-        }
-
         // Event listeners
-        startBtn.addEventListener('click', startStory);
+        startBtn.addEventListener('click', showDedication);
+        dedicationScreen.addEventListener('click', showStory);
+        replayBtn.addEventListener('click', restartStory);
         prevBtn.addEventListener('click', goToPrev);
         nextBtn.addEventListener('click', goToNext);
         document.addEventListener('keydown', handleKeydown);
@@ -706,8 +1469,65 @@
         pageWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
 
         // Initialize
-        createParticles();
+        // Character modal elements
+        const characterModal = document.getElementById('characterModal');
+        const characterSelect = document.getElementById('characterSelect');
+        const profileWizardCat = document.getElementById('profileWizardCat');
+        const profileMagicGirl = document.getElementById('profileMagicGirl');
+        const modalClose = document.getElementById('modalClose');
+        const charactersLink = document.getElementById('charactersLink');
+
+        // Modal functions
+        function openModal() {
+            characterModal.classList.add('visible');
+            showCharacterSelect();
+        }
+
+        function closeModal() {
+            characterModal.classList.remove('visible');
+        }
+
+        function showCharacterSelect() {
+            characterSelect.style.display = 'block';
+            profileWizardCat.classList.remove('visible');
+            profileMagicGirl.classList.remove('visible');
+        }
+
+        function showCharacterProfile(character) {
+            characterSelect.style.display = 'none';
+            if (character === 'wizard-cat') {
+                profileWizardCat.classList.add('visible');
+            } else if (character === 'magic-girl') {
+                profileMagicGirl.classList.add('visible');
+            }
+        }
+
+        // Modal event listeners
+        charactersLink.addEventListener('click', openModal);
+        modalClose.addEventListener('click', closeModal);
+        
+        characterModal.addEventListener('click', (e) => {
+            if (e.target === characterModal) {
+                closeModal();
+            }
+        });
+
+        document.querySelectorAll('.character-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                showCharacterProfile(btn.dataset.character);
+            });
+        });
+
+        document.querySelectorAll('[data-back]').forEach(btn => {
+            btn.addEventListener('click', showCharacterSelect);
+        });
+
+        // Init
+        createTitleParticles();
         initBook();
+        
+        // Start title animation after a brief moment
+        setTimeout(animateTitleSequence, 500);
     </script>
 </body>
 </html>
