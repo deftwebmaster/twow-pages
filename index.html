@@ -103,6 +103,23 @@
             display: block; 
         }
 
+        img.soft-load {
+            background:
+                radial-gradient(ellipse 80% 70% at 50% 45%, rgba(221, 184, 146, 0.2), transparent 72%),
+                var(--cream-warm);
+        }
+
+        img.soft-load:not(.image-ready) {
+            opacity: 0.28;
+            filter: blur(10px) saturate(0.85);
+        }
+
+        img.soft-load.image-ready {
+            opacity: 1;
+            filter: none;
+            transition: opacity 0.7s ease, filter 0.7s ease;
+        }
+
         /* ==========================================
            TEXTURE OVERLAY - Subtle paper grain
            ========================================== */
@@ -114,6 +131,51 @@
             opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             z-index: 1000;
+        }
+
+        /* ==========================================
+           SOFT SITE NAV
+           ========================================== */
+        .site-nav {
+            position: fixed;
+            top: calc(var(--safe-top) + 0.75rem);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            display: flex;
+            gap: 0.35rem;
+            padding: 0.35rem;
+            max-width: calc(100vw - 1rem);
+            overflow-x: auto;
+            background: rgba(250, 246, 240, 0.82);
+            border: 1px solid rgba(226, 212, 192, 0.9);
+            border-radius: 999px;
+            box-shadow: 0 8px 30px rgba(61, 53, 48, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            scrollbar-width: none;
+        }
+
+        .site-nav::-webkit-scrollbar { display: none; }
+
+        .site-nav a {
+            flex: 0 0 auto;
+            font-family: var(--font-body);
+            font-size: 0.8125rem;
+            line-height: 1;
+            color: var(--text-soft);
+            text-decoration: none;
+            padding: 0.55rem 0.8rem;
+            border-radius: 999px;
+            transition: background 0.2s ease, color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .site-nav a:hover,
+        .site-nav a:focus-visible {
+            color: var(--burgundy);
+            background: rgba(221, 184, 146, 0.22);
+            outline: none;
         }
 
         /* ==========================================
@@ -278,6 +340,7 @@
         .section {
             padding: var(--space-xl) var(--space-md);
             position: relative;
+            scroll-margin-top: 5rem;
         }
         
         .section-inner {
@@ -315,6 +378,14 @@
             width: 40px;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--amber-light), transparent);
+        }
+
+        .intro {
+            text-align: center;
+            color: var(--text-soft);
+            font-size: 1rem;
+            max-width: 540px;
+            margin: 0 auto var(--space-lg);
         }
 
         /* ==========================================
@@ -434,6 +505,11 @@
             grid-template-columns: 1fr;
             gap: var(--space-md);
         }
+
+        .gallery-card {
+            display: grid;
+            gap: 0.75rem;
+        }
         
         .gallery-item {
             border-radius: 14px;
@@ -468,6 +544,111 @@
             color: var(--cream);
             text-align: center;
             letter-spacing: 0.02em;
+        }
+
+        .gallery-lore {
+            padding: 0 var(--space-sm);
+            text-align: center;
+            font-size: 0.9375rem;
+            line-height: 1.55;
+            color: var(--text-soft);
+        }
+
+        .gallery-lore strong {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--burgundy);
+            margin-bottom: 0.2rem;
+        }
+
+        /* ==========================================
+           CABINET + TINY TOOLS BRIDGE
+           ========================================== */
+        .cabinet {
+            background:
+                radial-gradient(ellipse 90% 60% at 50% 0%, rgba(221, 184, 146, 0.18) 0%, transparent 70%),
+                var(--cream-warm);
+        }
+
+        .curiosity-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-sm);
+        }
+
+        .curiosity-card {
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid var(--parchment);
+            border-radius: 16px;
+            padding: var(--space-md);
+            box-shadow: 0 6px 24px rgba(109, 48, 56, 0.06);
+        }
+
+        .curiosity-kicker {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--amber);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .curiosity-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--burgundy);
+            margin-bottom: 0.35rem;
+        }
+
+        .curiosity-card p {
+            font-size: 0.9375rem;
+            color: var(--text-soft);
+            line-height: 1.55;
+        }
+
+        .tiny-tools {
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 100%, var(--amber-glow) 0%, transparent 72%),
+                var(--cream);
+        }
+
+        .tool-invites {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-sm);
+        }
+
+        .tool-invite {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--parchment);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.62);
+        }
+
+        .tool-invite span {
+            flex: 0 0 auto;
+            font-size: 1.45rem;
+            line-height: 1;
+        }
+
+        .tool-invite h3 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--burgundy);
+            margin-bottom: 0.2rem;
+        }
+
+        .tool-invite p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.45;
         }
 
         /* ==========================================
@@ -576,6 +757,11 @@
             .gallery-label {
                 font-size: 1rem;
             }
+
+            .curiosity-grid,
+            .tool-invites {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         /* ==========================================
@@ -662,6 +848,14 @@
     </style>
 </head>
 <body>
+    <nav class="site-nav" aria-label="Page sections">
+        <a href="#gallery">Gallery</a>
+        <a href="#curiosities">Curiosities</a>
+        <a href="#scale-calculator">Scale</a>
+        <a href="#hidden-game">Game</a>
+        <a href="#finding">Finding Work</a>
+    </nav>
+
     <!-- Ambient sparkles -->
     <div class="sparkle-field" aria-hidden="true">
         <div class="sparkle"></div>
@@ -674,8 +868,35 @@
         <div class="sparkle"></div>
     </div>
 
+    <script>
+        (function () {
+            'use strict';
+
+            function revealImage(img) {
+                img.classList.add('image-ready');
+            }
+
+            function prepareImages() {
+                document.querySelectorAll('img').forEach(img => {
+                    if (img.complete && img.naturalWidth > 0) {
+                        revealImage(img);
+                    } else {
+                        img.addEventListener('load', () => revealImage(img), { once: true });
+                        img.addEventListener('error', () => revealImage(img), { once: true });
+                    }
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', prepareImages, { once: true });
+            } else {
+                prepareImages();
+            }
+        })();
+    </script>
+
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" id="top">
         <div class="logo-container">
             <picture>
                 <source srcset="logo-800.webp" media="(min-width: 769px)" type="image/webp">
@@ -701,7 +922,7 @@
     </section>
 
     <!-- WHAT I MAKE -->
-    <section class="section what-i-make">
+    <section class="section what-i-make" id="making">
         <div class="section-inner">
             <header class="section-header">
                 <h2>What I Make</h2>
@@ -738,7 +959,7 @@
     </section>
 
     <!-- PHILOSOPHY -->
-    <section class="section philosophy">
+    <section class="section philosophy" id="philosophy">
         <div class="section-inner">
             <header class="section-header">
                 <h2>Why Tiny Worlds?</h2>
@@ -754,7 +975,7 @@
     </section>
 
     <!-- GALLERY -->
-    <section class="section gallery">
+    <section class="section gallery" id="gallery">
         <div class="section-inner">
             <header class="section-header">
                 <h2>A Glimpse Inside</h2>
@@ -762,24 +983,65 @@
             </header>
             
             <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="dollhouse-books.png" alt="Miniature library room with bookshelf, armchair, and cozy reading nook" loading="lazy">
-                    <span class="gallery-label">Cozy Corners</span>
-                </div>
-                <div class="gallery-item">
-                    <img src="dollhouse-food.png" alt="Miniature picnic spread with tiny baskets, plates of food, and bottles" loading="lazy">
-                    <span class="gallery-label">Tiny Feasts</span>
-                </div>
-                <div class="gallery-item">
-                    <img src="dollhouse-toys.png" alt="Miniature nursery room with bed, fireplace, toys, and stuffed bunny" loading="lazy">
-                    <span class="gallery-label">Little Worlds</span>
-                </div>
+                <article class="gallery-card">
+                    <div class="gallery-item">
+                        <img src="dollhouse-books.png" alt="Miniature library room with bookshelf, armchair, and cozy reading nook" class="soft-load" loading="lazy" width="1024" height="1024">
+                        <span class="gallery-label">Cozy Corners</span>
+                    </div>
+                    <p class="gallery-lore"><strong>Someone left the lamp on.</strong>A soft chair waits beside the shelves, as if the next chapter is only a breath away.</p>
+                </article>
+                <article class="gallery-card">
+                    <div class="gallery-item">
+                        <img src="dollhouse-food.png" alt="Miniature picnic spread with tiny baskets, plates of food, and bottles" class="soft-load" loading="lazy" width="1024" height="1024">
+                        <span class="gallery-label">Tiny Feasts</span>
+                    </div>
+                    <p class="gallery-lore"><strong>The picnic got wonderfully out of hand.</strong>Every basket, bottle, and plate looks like it arrived with its own tiny errand.</p>
+                </article>
+                <article class="gallery-card">
+                    <div class="gallery-item">
+                        <img src="dollhouse-toys.png" alt="Miniature nursery room with bed, fireplace, toys, and stuffed bunny" class="soft-load" loading="lazy" width="1024" height="1024">
+                        <span class="gallery-label">Little Worlds</span>
+                    </div>
+                    <p class="gallery-lore"><strong>The toys know where they belong.</strong>A little room can feel full of history before anyone says a word.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CABINET OF CURIOSITIES -->
+    <section class="section cabinet" id="curiosities">
+        <div class="section-inner">
+            <header class="section-header">
+                <h2>Cabinet of Curiosities</h2>
+                <div class="ornament" aria-hidden="true">✦</div>
+            </header>
+
+            <div class="intro">
+                <p>A few small things from the workbench: favorite details, tiny experiments, and the sort of pieces that reward a closer look.</p>
+            </div>
+
+            <div class="curiosity-grid">
+                <article class="curiosity-card">
+                    <span class="curiosity-kicker">This month</span>
+                    <h3>Lamplit Corners</h3>
+                    <p>Warm windows, stacked books, and little rooms that feel like someone just stepped away for tea.</p>
+                </article>
+                <article class="curiosity-card">
+                    <span class="curiosity-kicker">Favorite detail</span>
+                    <h3>Almost-Too-Tiny Food</h3>
+                    <p>Baskets, plates, jars, and picnic spreads where the smallest crumbs do most of the storytelling.</p>
+                </article>
+                <article class="curiosity-card">
+                    <span class="curiosity-kicker">Workbench note</span>
+                    <h3>Softly Aged Finishes</h3>
+                    <p>Paint, stain, and gentle weathering make a miniature feel collected instead of freshly unpacked.</p>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- FINDING MY WORK -->
-    <section class="section finding">
+    <section class="section finding" id="finding">
         <div class="section-inner">
             <header class="section-header">
                 <h2>Finding My Work</h2>
@@ -788,11 +1050,2003 @@
             
             <div class="finding-content">
                 <p>This little corner of the internet is simply a window into what I make—a place to share the craft without the noise of storefronts and notifications.</p>
-                <p>Pieces appear occasionally across different spaces, shared privately and discovered slowly.</p>
+                <p>New pieces appear in small batches through the places my collectors already know me, including private social spaces and marketplace apps.</p>
                 <p class="finding-note">Some things are best found by those who look closely.</p>
             </div>
         </div>
     </section>
+
+    <!-- TINY TOOLS BRIDGE -->
+    <section class="section tiny-tools" id="tiny-tools">
+        <div class="section-inner">
+            <header class="section-header">
+                <h2>Tiny Tools for Close Looking</h2>
+                <div class="ornament" aria-hidden="true">✦</div>
+            </header>
+
+            <div class="tool-invites">
+                <article class="tool-invite">
+                    <span aria-hidden="true">📏</span>
+                    <div>
+                        <h3>Scale a real-world idea</h3>
+                        <p>Turn doors, rugs, plates, and furniture into dollhouse measurements.</p>
+                    </div>
+                </article>
+                <article class="tool-invite">
+                    <span aria-hidden="true">🕯️</span>
+                    <div>
+                        <h3>Look for hidden details</h3>
+                        <p>Each room hides tiny objects tucked into the scene.</p>
+                    </div>
+                </article>
+                <article class="tool-invite">
+                    <span aria-hidden="true">🔍</span>
+                    <div>
+                        <h3>Slow down a little</h3>
+                        <p>The best parts of miniature worlds are usually the quietest ones.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    
+<!-- ==========================================
+     MINIATURE SCALE CALCULATOR SECTION
+     Drop into index.html before </body>
+     lone wolf, own tools | Matt Livingston
+     ========================================== -->
+
+<style>
+  /* ── Calculator Section ── */
+  .calc-section {
+    padding: var(--space-2xl) var(--space-md);
+    background: linear-gradient(180deg, var(--parchment) 0%, var(--cream-warm) 100%);
+    position: relative;
+  }
+
+  .calc-section .section-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── Scale Tabs ── */
+  .scale-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+  }
+
+  .scale-tab {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    background: var(--cream);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 999px;
+    padding: 0.35em 1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .scale-tab span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .scale-tab:hover {
+    border-color: var(--amber);
+    color: var(--text);
+  }
+
+  .scale-tab.active {
+    background: var(--burgundy);
+    border-color: var(--burgundy);
+    color: #fff;
+  }
+
+  .scale-tab.active span {
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ── Maker Presets ── */
+  .preset-panel {
+    margin: 0 auto var(--space-md);
+    padding: var(--space-sm);
+    border: 1px solid rgba(226, 212, 192, 0.8);
+    border-radius: 16px;
+    background: rgba(250, 246, 240, 0.64);
+  }
+
+  .preset-heading {
+    display: block;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--burgundy);
+    margin-bottom: 0.65rem;
+  }
+
+  .preset-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+  }
+
+  .preset-btn {
+    min-height: 42px;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    line-height: 1.2;
+    color: var(--text-soft);
+    background: rgba(255,255,255,0.72);
+    border: 1px solid var(--parchment-deep);
+    border-radius: 12px;
+    padding: 0.45rem 0.55rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .preset-btn:hover,
+  .preset-btn:focus-visible {
+    color: var(--burgundy);
+    border-color: var(--amber);
+    transform: translateY(-1px);
+    outline: none;
+  }
+
+  /* ── Calculator Card ── */
+  .calc-card {
+    background: var(--cream);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 20px;
+    padding: var(--space-lg);
+    box-shadow: 0 4px 24px rgba(61,53,48,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .calc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--amber-glow), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Direction Toggle ── */
+  .direction-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--text-soft);
+  }
+
+  .dir-label {
+    font-style: italic;
+    min-width: 120px;
+    text-align: center;
+    transition: color 0.2s ease;
+  }
+
+  .dir-label.active-dir { color: var(--burgundy); font-weight: 500; }
+
+  .dir-toggle-btn {
+    background: var(--parchment);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 999px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .dir-toggle-btn:hover {
+    background: var(--amber-glow);
+    border-color: var(--amber);
+  }
+
+  /* ── Input Row ── */
+  .calc-input-group {
+    margin-bottom: var(--space-md);
+  }
+
+  .calc-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4em;
+    letter-spacing: 0.03em;
+  }
+
+  .calc-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .calc-input {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--cream-warm);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 12px;
+    padding: 0.5em 0.75em;
+    outline: none;
+    transition: border-color 0.2s ease;
+    min-width: 0;
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  .calc-input::-webkit-outer-spin-button,
+  .calc-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .calc-input:focus {
+    border-color: var(--amber);
+    background: #fff;
+  }
+
+  .calc-input::placeholder {
+    color: var(--parchment-deep);
+    font-size: 1.2rem;
+  }
+
+  .unit-select {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    background: var(--cream-warm);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 12px;
+    padding: 0 0.75em;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .unit-select:focus { border-color: var(--amber); }
+
+  /* ── Result ── */
+  .calc-result-wrap {
+    background: var(--cream-warm);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 14px;
+    padding: var(--space-md);
+    text-align: center;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    position: relative;
+  }
+
+  .calc-result-wrap.has-result {
+    border-color: var(--amber-light);
+    background: rgba(255,250,244,1);
+  }
+
+  .result-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--burgundy);
+    line-height: 1.2;
+    transition: all 0.25s ease;
+  }
+
+  .result-unit {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    margin-top: 0.15em;
+  }
+
+  .result-empty {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--parchment-deep);
+    font-style: italic;
+  }
+
+  .scale-context {
+    display: none;
+    margin-top: var(--space-sm);
+    padding: var(--space-sm);
+    border: 1px solid rgba(226, 212, 192, 0.85);
+    border-radius: 14px;
+    background: rgba(250, 246, 240, 0.72);
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .scale-context.visible { display: block; }
+
+  .scale-context strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--burgundy);
+    margin-bottom: 0.15rem;
+  }
+
+  /* ── All Scales panel ── */
+  .all-scales-grid {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: var(--space-sm);
+  }
+
+  .all-scales-grid.visible { display: grid; }
+
+  .scale-result-chip {
+    background: var(--cream-warm);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 12px;
+    padding: 0.6em 0.8em;
+    text-align: center;
+  }
+
+  .scale-result-chip .chip-scale {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    display: block;
+    margin-bottom: 0.15em;
+  }
+
+  .scale-result-chip .chip-value {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--burgundy);
+  }
+
+  /* ── Show all toggle ── */
+  .show-all-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--amber);
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .show-all-btn:hover { color: var(--burgundy); }
+
+  /* ── Reference tip ── */
+  .calc-tip {
+    margin-top: var(--space-md);
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .calc-tip strong {
+    color: var(--text-soft);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* ── Responsive ── */
+  @media (min-width: 480px) {
+    .result-value { font-size: 2.4rem; }
+    .all-scales-grid { grid-template-columns: repeat(4, 1fr); }
+    .preset-buttons { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+
+<section class="section calc-section" id="scale-calculator">
+  <div class="section-inner">
+    <header class="section-header">
+      <h2>Scale Calculator</h2>
+      <div class="ornament" aria-hidden="true">✦</div>
+    </header>
+
+    <div class="intro">
+      <p>Convert any measurement to miniature scale, work backwards from a tiny piece, or start with a common real-world object.</p>
+    </div>
+
+    <!-- Scale selector -->
+    <div class="scale-tabs" role="group" aria-label="Select scale">
+      <button class="scale-tab active" data-scale="12">
+        1:12
+        <span>Standard dollhouse</span>
+      </button>
+      <button class="scale-tab" data-scale="6">
+        1:6
+        <span>Fashion doll</span>
+      </button>
+      <button class="scale-tab" data-scale="24">
+        1:24
+        <span>Half scale</span>
+      </button>
+      <button class="scale-tab" data-scale="48">
+        1:48
+        <span>Quarter scale</span>
+      </button>
+    </div>
+
+    <!-- Quick maker presets -->
+    <div class="preset-panel" aria-label="Common real-world measurements">
+      <span class="preset-heading">Quick starts from the real world</span>
+      <div class="preset-buttons">
+        <button class="preset-btn" data-value="80" data-unit="in">Standard door<br>80 in</button>
+        <button class="preset-btn" data-value="30" data-unit="in">Dining table<br>30 in</button>
+        <button class="preset-btn" data-value="72" data-unit="in">Bookcase<br>72 in</button>
+        <button class="preset-btn" data-value="96" data-unit="in">Room rug<br>96 in</button>
+        <button class="preset-btn" data-value="48" data-unit="in">Window<br>48 in</button>
+        <button class="preset-btn" data-value="10" data-unit="in">Dinner plate<br>10 in</button>
+        <button class="preset-btn" data-value="9" data-unit="in">Hardcover book<br>9 in</button>
+        <button class="preset-btn" data-value="80" data-unit="in">Twin bed<br>80 in</button>
+      </div>
+    </div>
+
+    <div class="calc-card">
+
+      <!-- Direction toggle -->
+      <div class="direction-row">
+        <span class="dir-label active-dir" id="dir-from">Real world</span>
+        <button class="dir-toggle-btn" id="dir-toggle-btn" aria-label="Swap direction" title="Swap direction">⇄</button>
+        <span class="dir-label" id="dir-to">Miniature</span>
+      </div>
+
+      <!-- Input -->
+      <div class="calc-input-group">
+        <label class="calc-label" for="calc-input" id="calc-input-label">Enter real-world measurement</label>
+        <div class="calc-input-row">
+          <input
+            id="calc-input"
+            class="calc-input"
+            type="text"
+            placeholder="e.g. 36 or 3 1/2"
+            inputmode="decimal"
+            autocomplete="off"
+          >
+          <select class="unit-select" id="unit-select" aria-label="Unit">
+            <option value="in">in</option>
+            <option value="ft">ft</option>
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="calc-result-wrap" id="result-wrap">
+        <span class="result-empty" id="result-empty">Your result will appear here</span>
+        <span class="result-value" id="result-value" style="display:none"></span>
+        <span class="result-unit"  id="result-unit"  style="display:none"></span>
+      </div>
+
+      <div class="scale-context" id="scale-context" aria-live="polite">
+        <strong id="scale-context-title"></strong>
+        <span id="scale-context-text"></span>
+      </div>
+
+      <!-- Show all scales -->
+      <div style="text-align:center">
+        <button class="show-all-btn" id="show-all-btn" style="display:none">
+          Show all scales ▾
+        </button>
+      </div>
+
+      <div class="all-scales-grid" id="all-scales-grid">
+        <div class="scale-result-chip" id="chip-12">
+          <span class="chip-scale">1:12</span>
+          <span class="chip-value">—</span>
+        </div>
+        <div class="scale-result-chip" id="chip-6">
+          <span class="chip-scale">1:6</span>
+          <span class="chip-value">—</span>
+        </div>
+        <div class="scale-result-chip" id="chip-24">
+          <span class="chip-scale">1:24</span>
+          <span class="chip-value">—</span>
+        </div>
+        <div class="scale-result-chip" id="chip-48">
+          <span class="chip-scale">1:48</span>
+          <span class="chip-value">—</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick reference tip -->
+    <p class="calc-tip" id="calc-tip">
+      <!-- populated by JS based on active scale -->
+    </p>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── State ── */
+  let activeScale = 12;       // denominator of 1:N ratio
+  let direction   = 'real-to-mini'; // or 'mini-to-real'
+  let showAll     = false;
+
+  /* ── DOM ── */
+  const inputEl      = document.getElementById('calc-input');
+  const unitSel      = document.getElementById('unit-select');
+  const resultWrap   = document.getElementById('result-wrap');
+  const resultEmpty  = document.getElementById('result-empty');
+  const resultValue  = document.getElementById('result-value');
+  const resultUnit   = document.getElementById('result-unit');
+  const scaleContext = document.getElementById('scale-context');
+  const contextTitle = document.getElementById('scale-context-title');
+  const contextText  = document.getElementById('scale-context-text');
+  const dirFromEl    = document.getElementById('dir-from');
+  const dirToEl      = document.getElementById('dir-to');
+  const dirToggleBtn = document.getElementById('dir-toggle-btn');
+  const showAllBtn   = document.getElementById('show-all-btn');
+  const allScalesGrid= document.getElementById('all-scales-grid');
+  const inputLabel   = document.getElementById('calc-input-label');
+  const tipEl        = document.getElementById('calc-tip');
+
+  /* ── Scale metadata ── */
+  const SCALES = {
+    12:  { label: '1:12', name: 'Standard dollhouse',  tip: 'In 1:12 scale, 1 inch = 1 foot. A standard door (6\'8") becomes just 6.67 inches tall.' },
+    6:   { label: '1:6',  name: 'Fashion doll / Barbie', tip: 'In 1:6 scale, 2 inches = 1 foot. Popular for fashion dolls and action figures.' },
+    24:  { label: '1:24', name: 'Half scale',           tip: 'In 1:24 scale, ½ inch = 1 foot. Details are very fine — precision is everything.' },
+    48:  { label: '1:48', name: 'Quarter scale',        tip: 'In 1:48 scale, ¼ inch = 1 foot. Tiny even by miniature standards — a true challenge.' },
+  };
+
+  /* ── Unit conversion to inches (base unit) ── */
+  const TO_INCHES = { in: 1, ft: 12, cm: 0.393701, mm: 0.0393701 };
+  const FROM_INCHES = { in: 1, ft: 1/12, cm: 2.54, mm: 25.4 };
+
+  /* ── Parse decimals and simple mixed fractions ── */
+  function parseMeasurement(value) {
+    const text = String(value || '').trim();
+    if (!text) return NaN;
+
+    const compact = text.replace(/\s+/g, ' ');
+    const mixed = compact.match(/^(\d+(?:\.\d+)?)\s+(\d+)\/(\d+)$/);
+    const fraction = compact.match(/^(\d+)\/(\d+)$/);
+    const decimal = compact.match(/^\d+(?:\.\d+)?$/);
+
+    if (mixed) {
+      const whole = Number(mixed[1]);
+      const numerator = Number(mixed[2]);
+      const denominator = Number(mixed[3]);
+      return denominator ? whole + numerator / denominator : NaN;
+    }
+
+    if (fraction) {
+      const numerator = Number(fraction[1]);
+      const denominator = Number(fraction[2]);
+      return denominator ? numerator / denominator : NaN;
+    }
+
+    return decimal ? Number(compact) : NaN;
+  }
+
+  function fmtInchesAsFraction(n) {
+    if (n === 0) return '0';
+    if (Math.abs(n) >= 96) return null;
+
+    const denominator = 16;
+    const whole = Math.floor(n);
+    let numerator = Math.round((n - whole) * denominator);
+    let adjustedWhole = whole;
+
+    if (numerator === denominator) {
+      adjustedWhole += 1;
+      numerator = 0;
+    }
+
+    const gcd = (a, b) => b ? gcd(b, a % b) : a;
+    const divisor = numerator ? gcd(numerator, denominator) : 1;
+    const simpleNumerator = numerator / divisor;
+    const simpleDenominator = denominator / divisor;
+
+    if (numerator === 0) return String(adjustedWhole);
+    if (adjustedWhole === 0) return `${simpleNumerator}/${simpleDenominator}`;
+    return `${adjustedWhole} ${simpleNumerator}/${simpleDenominator}`;
+  }
+
+  /* ── Format a number sensibly ── */
+  function fmt(n, unit) {
+    if (!isFinite(n) || n < 0) return null;
+
+    if (unit === 'in') {
+      const fraction = fmtInchesAsFraction(n);
+      if (fraction) return fraction;
+    }
+
+    // Choose smart precision
+    let str;
+    if (n === 0) {
+      str = '0';
+    } else if (n >= 100) {
+      str = n.toFixed(1).replace(/\.0$/, '');
+    } else if (n >= 10) {
+      str = n.toFixed(2).replace(/\.?0+$/, '');
+    } else if (n >= 1) {
+      str = n.toFixed(3).replace(/\.?0+$/, '');
+    } else {
+      str = n.toFixed(4).replace(/\.?0+$/, '');
+    }
+
+    return str;
+  }
+
+  /* ── Smart unit suggestion for result ── */
+  function smartUnit(valueInInches, preferUnit) {
+    // If value is very large in inches, suggest feet
+    // If very small, suggest mm
+    const abs = Math.abs(valueInInches);
+    if (preferUnit === 'ft' || preferUnit === 'in') {
+      if (abs >= 24)  return 'ft';
+      if (abs < 0.05) return 'mm';
+      return 'in';
+    } else {
+      if (abs * 25.4 < 1) return 'mm';
+      return 'cm';
+    }
+  }
+
+  /* ── Core calculation ── */
+  function calculate(rawValue, inputUnit, scale, dir) {
+    const valInches = rawValue * TO_INCHES[inputUnit];
+
+    let resultInches;
+    if (dir === 'real-to-mini') {
+      resultInches = valInches / scale;
+    } else {
+      resultInches = valInches * scale;
+    }
+
+    // Choose output unit
+    const outUnit = smartUnit(resultInches, inputUnit);
+    const outVal  = resultInches * FROM_INCHES[outUnit];
+
+    return { value: outVal, unit: outUnit, rawInches: resultInches };
+  }
+
+  function describeScaleContext(resultInches, dir) {
+    if (!isFinite(resultInches)) return null;
+
+    const inches = Math.abs(resultInches);
+    const title = dir === 'real-to-mini' ? 'Maker note' : 'Real-world note';
+    let text;
+
+    if (dir === 'mini-to-real') {
+      if (inches >= 72) {
+        text = 'That would read as a full room-scale piece in the real world: good for beds, doors, cabinets, or big architectural details.';
+      } else if (inches >= 24) {
+        text = 'That lands in furniture territory: tables, chairs, shelves, windows, and other pieces that anchor a room.';
+      } else if (inches >= 6) {
+        text = 'That feels like a handheld object at full size: plates, books, baskets, lamps, or soft decor.';
+      } else {
+        text = 'That stays in tiny-detail territory even when scaled up: hardware, knobs, treats, buttons, or little found things.';
+      }
+    } else if (inches >= 6) {
+      text = 'This is a larger miniature piece: useful for doors, tall furniture, rugs, beds, and other room-defining elements.';
+    } else if (inches >= 2) {
+      text = 'This is a comfortable hand-detail size: nice for tables, chairs, shelves, windows, baskets, and statement accessories.';
+    } else if (inches >= 0.5) {
+      text = 'This is small-detail territory: good for books, plates, jars, pillows, toys, and little tabletop pieces.';
+    } else if (inches >= 0.125) {
+      text = 'This is precision work: handles, trim, tiny food, buttons, labels, and details that make people lean closer.';
+    } else {
+      text = 'This is almost speck-sized at miniature scale: best for painted marks, seed beads, crumbs, nail heads, and implied texture.';
+    }
+
+    return { title, text };
+  }
+
+  /* ── Calculate for all scales ── */
+  function calcAll(rawValue, inputUnit, dir) {
+    return Object.fromEntries(
+      Object.keys(SCALES).map(s => {
+        const r = calculate(rawValue, inputUnit, Number(s), dir);
+        return [s, r];
+      })
+    );
+  }
+
+  /* ── Render ── */
+  function render() {
+    const raw = parseMeasurement(inputEl.value);
+    const unit = unitSel.value;
+
+    if (isNaN(raw) || raw < 0 || inputEl.value.trim() === '') {
+      resultEmpty.style.display = '';
+      resultValue.style.display = 'none';
+      resultUnit.style.display  = 'none';
+      resultWrap.classList.remove('has-result');
+      scaleContext.classList.remove('visible');
+      contextTitle.textContent = '';
+      contextText.textContent = '';
+      showAllBtn.style.display  = 'none';
+      allScalesGrid.classList.remove('visible');
+      showAll = false;
+      updateAllChips(null);
+      return;
+    }
+
+    const r = calculate(raw, unit, activeScale, direction);
+    const formatted = fmt(r.value, r.unit);
+    if (!formatted) return;
+
+    resultEmpty.style.display = 'none';
+    resultValue.style.display = '';
+    resultUnit.style.display  = '';
+    resultValue.textContent   = formatted;
+    resultUnit.textContent    = r.unit;
+    resultWrap.classList.add('has-result');
+    const context = describeScaleContext(r.rawInches, direction);
+    if (context) {
+      contextTitle.textContent = context.title;
+      contextText.textContent = context.text;
+      scaleContext.classList.add('visible');
+    }
+    showAllBtn.style.display  = '';
+
+    // All scales
+    const all = calcAll(raw, unit, direction);
+    updateAllChips(all);
+
+    // Animate result
+    resultValue.style.opacity = '0';
+    requestAnimationFrame(() => {
+      resultValue.style.transition = 'opacity 0.2s ease';
+      resultValue.style.opacity = '1';
+    });
+  }
+
+  function updateAllChips(all) {
+    [12, 6, 24, 48].forEach(s => {
+      const chip = document.getElementById(`chip-${s}`);
+      const valueEl = chip.querySelector('.chip-value');
+      if (!all) {
+        valueEl.textContent = '—';
+        chip.style.borderColor = '';
+      } else {
+        const r = all[s];
+        valueEl.textContent = `${fmt(r.value, r.unit)} ${r.unit}`;
+        chip.style.borderColor = s === activeScale ? 'var(--amber)' : '';
+      }
+    });
+  }
+
+  /* ── Direction toggle ── */
+  function updateDirectionUI() {
+    if (direction === 'real-to-mini') {
+      dirFromEl.textContent = 'Real world';
+      dirToEl.textContent   = 'Miniature';
+      dirFromEl.classList.add('active-dir');
+      dirToEl.classList.remove('active-dir');
+      inputLabel.textContent = 'Enter real-world measurement';
+    } else {
+      dirFromEl.textContent = 'Miniature';
+      dirToEl.textContent   = 'Real world';
+      dirFromEl.classList.add('active-dir');
+      dirToEl.classList.remove('active-dir');
+      inputLabel.textContent = 'Enter miniature measurement';
+    }
+  }
+
+  /* ── Tip text ── */
+  function updateTip() {
+    tipEl.innerHTML = `<strong>${SCALES[activeScale].label} · ${SCALES[activeScale].name}</strong><br>${SCALES[activeScale].tip}`;
+  }
+
+  /* ── Event listeners ── */
+  inputEl.addEventListener('input', render);
+  unitSel.addEventListener('change', render);
+
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      direction = 'real-to-mini';
+      inputEl.value = btn.dataset.value;
+      unitSel.value = btn.dataset.unit;
+      updateDirectionUI();
+      render();
+      inputEl.focus();
+    });
+  });
+
+  dirToggleBtn.addEventListener('click', () => {
+    direction = direction === 'real-to-mini' ? 'mini-to-real' : 'real-to-mini';
+    updateDirectionUI();
+    render();
+  });
+
+  document.querySelectorAll('.scale-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeScale = Number(btn.dataset.scale);
+      document.querySelectorAll('.scale-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateTip();
+      render();
+    });
+  });
+
+  showAllBtn.addEventListener('click', () => {
+    showAll = !showAll;
+    allScalesGrid.classList.toggle('visible', showAll);
+    showAllBtn.textContent = showAll ? 'Hide other scales ▴' : 'Show all scales ▾';
+  });
+
+  /* ── Init ── */
+  updateDirectionUI();
+  updateTip();
+
+})();
+</script>
+
+<!-- ==========================================
+     HIDDEN OBJECT GAME SECTION
+     Drop into index.html before </body>
+     lone wolf, quiet teeth | Matt Livingston
+     ========================================== -->
+
+<style>
+  /* ── Game Section Shell ── */
+  .game-section {
+    padding: var(--space-2xl) var(--space-md);
+    background: linear-gradient(180deg, var(--cream-warm) 0%, var(--parchment) 100%);
+    position: relative;
+  }
+
+  .game-section .section-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ── Room Selector ── */
+  .room-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+  }
+
+  .room-btn {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--text-soft);
+    background: var(--cream);
+    border: 1.5px solid var(--parchment-deep);
+    border-radius: 999px;
+    padding: 0.4em 1.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .room-btn:hover {
+    border-color: var(--amber);
+    color: var(--text);
+    background: var(--cream-warm);
+  }
+
+  .room-btn.active {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+  }
+
+  .room-btn.random-btn {
+    border-style: dashed;
+    font-style: italic;
+  }
+
+  /* ── Scene Container ── */
+  .scene-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid var(--parchment-deep);
+    box-shadow: 0 8px 40px rgba(61,53,48,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
+    background: var(--cream-warm);
+    cursor: crosshair;
+  }
+
+  .scene-wrap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .scene-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Room transition */
+  .scene-wrap.fading { opacity: 0; transition: opacity 0.25s ease; }
+  .scene-wrap.fading-in { opacity: 1; transition: opacity 0.35s ease; }
+
+  /* ── Found Flash ── */
+  .found-burst {
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: burst-pop 0.7s ease forwards;
+    z-index: 20;
+  }
+
+  @keyframes burst-pop {
+    0%   { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+    40%  { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-20px); }
+  }
+
+  /* ── Object Checklist ── */
+  .object-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: var(--space-sm);
+  }
+
+  .object-chip {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    padding: 0.3em 0.8em;
+    border-radius: 999px;
+    background: var(--cream);
+    border: 1.5px solid var(--parchment-deep);
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+  }
+
+  .object-chip.found {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: #fff;
+    text-decoration: line-through;
+    opacity: 0.75;
+  }
+
+  /* ── Win State ── */
+  .win-banner {
+    display: none;
+    text-align: center;
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background: var(--amber-glow);
+    border: 1.5px solid var(--amber-light);
+    border-radius: 16px;
+    animation: gentle-glow 2s infinite ease-in-out;
+  }
+
+  .win-banner.visible { display: block; }
+
+  @keyframes gentle-glow {
+    0%, 100% { box-shadow: 0 0 0 0 var(--amber-glow); }
+    50% { box-shadow: 0 0 20px 4px var(--amber-glow); }
+  }
+
+  .win-banner p {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--burgundy);
+    margin-bottom: 0.5em;
+  }
+
+  .win-banner small {
+    font-family: var(--font-body);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .reward-card {
+    margin: var(--space-sm) auto 0;
+    max-width: 460px;
+    padding: var(--space-md);
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(201, 149, 108, 0.45);
+    border-radius: 14px;
+  }
+
+  .reward-card strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--burgundy-deep);
+    margin-bottom: 0.25rem;
+  }
+
+  .reward-card span {
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .play-again-btn {
+    margin-top: 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--burgundy);
+    background: transparent;
+    border: 1.5px solid var(--burgundy);
+    border-radius: 999px;
+    padding: 0.4em 1.2em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .play-again-btn:hover {
+    background: var(--burgundy);
+    color: #fff;
+  }
+
+  /* ── Hit zone debug (off by default) ── */
+  .hit-zone { cursor: pointer; }
+  .hit-zone:hover { opacity: 0.01; }
+
+  /* ── Found object dim ── */
+  .found-object { opacity: 0.3; pointer-events: none; transition: opacity 0.4s ease; }
+
+  /* ── Hint counter ── */
+  .game-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .hint-btn {
+    background: none;
+    border: 1px dashed var(--amber);
+    border-radius: 999px;
+    padding: 0.2em 0.8em;
+    color: var(--amber);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .hint-btn:hover { background: var(--amber-glow); }
+  .hint-btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* Hint highlight pulse */
+  @keyframes hint-pulse {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.55; }
+  }
+  .hint-pulse {
+    animation: hint-pulse 1.2s ease 3;
+    fill: var(--burgundy) !important;
+    opacity: 0.4;
+  }
+</style>
+
+<section class="section game-section" id="hidden-game">
+  <div class="section-inner">
+    <header class="section-header">
+      <h2>Hidden in Plain Sight</h2>
+      <div class="ornament" aria-hidden="true">✦</div>
+    </header>
+
+    <div class="intro" style="margin-bottom: var(--space-md);">
+      <p>Every tiny world holds secrets. Can you find them all?</p>
+    </div>
+
+    <!-- Room selector -->
+    <div class="room-selector" role="group" aria-label="Choose a room">
+      <button class="room-btn active" data-room="library">📚 Cozy Corners</button>
+      <button class="room-btn" data-room="kitchen">🍳 Tiny Feasts</button>
+      <button class="room-btn" data-room="nursery">🧸 Little Worlds</button>
+      <button class="room-btn random-btn" data-room="random">🎲 Surprise me</button>
+    </div>
+
+    <!-- Game meta row -->
+    <div class="game-meta">
+      <span id="found-counter">Found: 0 of 6</span>
+      <button class="hint-btn" id="hint-btn">✦ Hint (3 left)</button>
+    </div>
+
+    <!-- Scene -->
+    <div class="scene-wrap" id="scene-wrap">
+      <!-- SVG injected by JS -->
+    </div>
+
+    <!-- Object checklist -->
+    <div class="object-list" id="object-list"></div>
+
+    <!-- Win banner -->
+    <div class="win-banner" id="win-banner">
+      <p>You found them all ✦</p>
+      <small>Every tiny world rewards those who look closely.</small><br>
+      <div class="reward-card" id="reward-card">
+        <strong id="reward-title"></strong>
+        <span id="reward-text"></span>
+      </div>
+      <button class="play-again-btn" id="play-again-btn">Try another room</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ══════════════════════════════════════════
+     ROOM DEFINITIONS
+     Each object has: id, label, emoji, cx, cy, r (hit radius as % of viewBox)
+     ViewBox is 600x420 for all rooms
+  ══════════════════════════════════════════ */
+
+  const ROOMS = {
+    library: {
+      name: 'Cozy Corners',
+      rewardTitle: 'Curiosity card: Lamplight and pages',
+      rewardText: 'A room like this works because the quiet parts agree with each other: warm wood, worn books, a sleepy companion, and one very patient candle.',
+      objects: [
+        { id: 'cat',        label: 'Sleeping cat',    emoji: '🐱', cx: 82,  cy: 310, r: 18 },
+        { id: 'thimble',    label: 'Thimble',         emoji: '🪡', cx: 490, cy: 188, r: 14 },
+        { id: 'key',        label: 'Old key',         emoji: '🗝️', cx: 155, cy: 378, r: 14 },
+        { id: 'mouse',      label: 'Little mouse',    emoji: '🐭', cx: 310, cy: 360, r: 16 },
+        { id: 'candle',     label: 'Candle',          emoji: '🕯️', cx: 525, cy: 295, r: 13 },
+        { id: 'acorn',      label: 'Acorn',           emoji: '🌰', cx: 228, cy: 196, r: 13 },
+      ],
+      svgFn: drawLibrary
+    },
+    kitchen: {
+      name: 'Tiny Feasts',
+      rewardTitle: 'Curiosity card: The table is telling',
+      rewardText: 'Food miniatures feel alive when they are slightly imperfect: a tilted bottle, a crowded plate, a basket that looks carried instead of placed.',
+      objects: [
+        { id: 'butterfly',  label: 'Butterfly',       emoji: '🦋', cx: 490, cy: 80,  r: 16 },
+        { id: 'teacup',     label: 'Teacup',          emoji: '🫖', cx: 138, cy: 308, r: 15 },
+        { id: 'mouse',      label: 'Little mouse',    emoji: '🐭', cx: 380, cy: 378, r: 16 },
+        { id: 'key',        label: 'Old key',         emoji: '🗝️', cx: 70,  cy: 190, r: 13 },
+        { id: 'coin',       label: 'Gold coin',       emoji: '🪙', cx: 296, cy: 295, r: 13 },
+        { id: 'snail',      label: 'Tiny snail',      emoji: '🐌', cx: 540, cy: 360, r: 15 },
+      ],
+      svgFn: drawKitchen
+    },
+    nursery: {
+      name: 'Little Worlds',
+      rewardTitle: 'Curiosity card: Soft things remember',
+      rewardText: 'Nursery scenes get their sweetness from contrast: polished wood, soft blankets, tiny toys, and a little glow from somewhere safe.',
+      objects: [
+        { id: 'cat',        label: 'Sleeping cat',    emoji: '🐱', cx: 510, cy: 345, r: 18 },
+        { id: 'acorn',      label: 'Acorn',           emoji: '🌰', cx: 88,  cy: 375, r: 13 },
+        { id: 'butterfly',  label: 'Butterfly',       emoji: '🦋', cx: 304, cy: 68,  r: 16 },
+        { id: 'thimble',    label: 'Thimble',         emoji: '🪡', cx: 172, cy: 248, r: 14 },
+        { id: 'snail',      label: 'Tiny snail',      emoji: '🐌', cx: 430, cy: 200, r: 15 },
+        { id: 'candle',     label: 'Candle',          emoji: '🕯️', cx: 558, cy: 148, r: 13 },
+      ],
+      svgFn: drawNursery
+    }
+  };
+
+  /* ══════════════════════════════════════════
+     SVG ROOMS
+  ══════════════════════════════════════════ */
+
+  function svgOpen(extra = '') {
+    return `<svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" ${extra}>`;
+  }
+
+  // ── LIBRARY ────────────────────────────────
+  function drawLibrary() {
+    return svgOpen() + `
+    <defs>
+      <linearGradient id="wall-lib" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f0e4d0"/>
+        <stop offset="100%" stop-color="#e8d9c5"/>
+      </linearGradient>
+      <linearGradient id="floor-lib" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c8a87a"/>
+        <stop offset="100%" stop-color="#b8956a"/>
+      </linearGradient>
+      <pattern id="wallpaper" patternUnits="userSpaceOnUse" width="40" height="40">
+        <rect width="40" height="40" fill="#f0e4d0"/>
+        <circle cx="20" cy="20" r="1.5" fill="#c9956c" opacity="0.25"/>
+        <path d="M0 20 Q10 10 20 20 Q30 30 40 20" stroke="#c9956c" stroke-width="0.5" fill="none" opacity="0.15"/>
+      </pattern>
+      <linearGradient id="shelf-wood" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8b6340"/>
+        <stop offset="100%" stop-color="#6b4820"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Wall -->
+    <rect width="600" height="420" fill="url(#wallpaper)"/>
+
+    <!-- Wainscoting -->
+    <rect x="0" y="300" width="600" height="8" fill="#c9956c" opacity="0.4"/>
+    <rect x="0" y="308" width="600" height="112" fill="url(#floor-lib)"/>
+
+    <!-- Floor boards -->
+    <line x1="0" y1="340" x2="600" y2="340" stroke="#a07850" stroke-width="1" opacity="0.4"/>
+    <line x1="0" y1="370" x2="600" y2="370" stroke="#a07850" stroke-width="1" opacity="0.4"/>
+    <line x1="0" y1="400" x2="600" y2="400" stroke="#a07850" stroke-width="1" opacity="0.4"/>
+    <line x1="120" y1="308" x2="100" y2="420" stroke="#a07850" stroke-width="1" opacity="0.3"/>
+    <line x1="280" y1="308" x2="260" y2="420" stroke="#a07850" stroke-width="1" opacity="0.3"/>
+    <line x1="440" y1="308" x2="420" y2="420" stroke="#a07850" stroke-width="1" opacity="0.3"/>
+
+    <!-- Bookshelf unit (left) -->
+    <rect x="30" y="60" width="170" height="250" rx="3" fill="url(#shelf-wood)"/>
+    <!-- Shelf boards -->
+    <rect x="30" y="60"  width="170" height="8"  fill="#6b4820"/>
+    <rect x="30" y="118" width="170" height="8"  fill="#6b4820"/>
+    <rect x="30" y="178" width="170" height="8"  fill="#6b4820"/>
+    <rect x="30" y="238" width="170" height="8"  fill="#6b4820"/>
+    <rect x="30" y="298" width="170" height="8"  fill="#6b4820"/>
+    <!-- Side panels -->
+    <rect x="30"  y="60" width="8"  height="250" fill="#5a3a10"/>
+    <rect x="192" y="60" width="8"  height="250" fill="#5a3a10"/>
+
+    <!-- Books on shelf 1 -->
+    <rect x="42"  y="70" width="14" height="46" rx="1" fill="#8b4049"/>
+    <rect x="58"  y="74" width="11" height="42" rx="1" fill="#4a5d4a"/>
+    <rect x="71"  y="68" width="16" height="48" rx="1" fill="#c9956c"/>
+    <rect x="89"  y="72" width="12" height="44" rx="1" fill="#6b4820"/>
+    <rect x="103" y="76" width="10" height="40" rx="1" fill="#8b4049" opacity="0.7"/>
+    <rect x="115" y="70" width="15" height="46" rx="1" fill="#4a5d4a" opacity="0.8"/>
+    <rect x="132" y="74" width="11" height="42" rx="1" fill="#ddb892"/>
+    <rect x="145" y="68" width="13" height="48" rx="1" fill="#8b4049" opacity="0.6"/>
+    <rect x="160" y="72" width="10" height="44" rx="1" fill="#4a5d4a" opacity="0.9"/>
+    <!-- Spine lines -->
+    <line x1="48"  y1="72" x2="48"  y2="114" stroke="#fff" stroke-width="0.5" opacity="0.3"/>
+    <line x1="77"  y1="70" x2="77"  y2="114" stroke="#fff" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- Books on shelf 2 -->
+    <rect x="42"  y="130" width="18" height="46" rx="1" fill="#ddb892"/>
+    <rect x="62"  y="134" width="12" height="42" rx="1" fill="#8b4049"/>
+    <rect x="76"  y="128" width="14" height="48" rx="1" fill="#4a5d4a"/>
+    <rect x="92"  y="132" width="10" height="44" rx="1" fill="#c9956c" opacity="0.8"/>
+    <rect x="104" y="130" width="16" height="46" rx="1" fill="#6b4820" opacity="0.7"/>
+    <rect x="122" y="134" width="11" height="42" rx="1" fill="#8b4049" opacity="0.6"/>
+    <rect x="135" y="128" width="13" height="48" rx="1" fill="#ddb892" opacity="0.9"/>
+    <rect x="150" y="132" width="12" height="44" rx="1" fill="#4a5d4a" opacity="0.7"/>
+    <!-- Small decorative object (thimble hidden here) -->
+    <ellipse cx="490" cy="185" rx="8" ry="6" fill="#c9956c" opacity="0.85" id="obj-thimble" class="hit-zone"/>
+    <rect x="484" y="179" width="12" height="8" rx="1" fill="#b8844a" opacity="0.85" id="obj-thimble-body" class="hit-zone" data-target="thimble"/>
+    <line x1="486" y1="181" x2="488" y2="186" stroke="#8b6340" stroke-width="0.7" opacity="0.6"/>
+    <line x1="490" y1="180" x2="490" y2="186" stroke="#8b6340" stroke-width="0.7" opacity="0.6"/>
+    <line x1="494" y1="181" x2="492" y2="186" stroke="#8b6340" stroke-width="0.7" opacity="0.6"/>
+
+    <!-- Books on shelf 3 -->
+    <rect x="42"  y="190" width="13" height="46" rx="1" fill="#8b4049" opacity="0.8"/>
+    <rect x="57"  y="194" width="16" height="42" rx="1" fill="#4a5d4a"/>
+    <rect x="75"  y="188" width="11" height="48" rx="1" fill="#ddb892" opacity="0.7"/>
+    <rect x="88"  y="192" width="15" height="44" rx="1" fill="#c9956c" opacity="0.6"/>
+    <rect x="105" y="190" width="10" height="46" rx="1" fill="#6b4820"/>
+    <rect x="117" y="194" width="14" height="42" rx="1" fill="#8b4049" opacity="0.7"/>
+    <rect x="133" y="188" width="12" height="48" rx="1" fill="#4a5d4a" opacity="0.8"/>
+    <!-- Acorn sitting on this shelf -->
+    <ellipse cx="228" cy="198" rx="7" ry="8" fill="#8b6340" id="obj-acorn" class="hit-zone" data-target="acorn"/>
+    <ellipse cx="228" cy="192" rx="7" ry="4" fill="#5a3a10" id="obj-acorn-cap"/>
+    <line x1="228" y1="188" x2="227" y2="183" stroke="#5a3a10" stroke-width="1.5" id="obj-acorn-stem"/>
+
+    <!-- Window (right wall) -->
+    <rect x="360" y="60" width="170" height="210" rx="4" fill="#dbeaf5" opacity="0.8"/>
+    <rect x="360" y="60" width="170" height="210" rx="4" fill="none" stroke="#8b6340" stroke-width="5"/>
+    <!-- Window cross -->
+    <line x1="445" y1="60" x2="445" y2="270" stroke="#8b6340" stroke-width="4"/>
+    <line x1="360" y1="160" x2="530" y2="160" stroke="#8b6340" stroke-width="4"/>
+    <!-- Window light -->
+    <rect x="365" y="65"  width="76"  height="91" fill="#fff5e0" opacity="0.35"/>
+    <rect x="449" y="65"  width="76"  height="91" fill="#fff5e0" opacity="0.35"/>
+    <rect x="365" y="164" width="76"  height="101" fill="#fff5e0" opacity="0.2"/>
+    <rect x="449" y="164" width="76"  height="101" fill="#fff5e0" opacity="0.2"/>
+    <!-- Window curtains -->
+    <path d="M360 60 Q340 100 350 180 Q345 220 360 270" fill="#c9956c" opacity="0.45"/>
+    <path d="M530 60 Q550 100 540 180 Q545 220 530 270" fill="#c9956c" opacity="0.45"/>
+
+    <!-- Armchair -->
+    <rect x="340" y="230" width="130" height="80" rx="12" fill="#8b4049" opacity="0.85"/>
+    <rect x="330" y="218" width="150" height="30" rx="10" fill="#7a3038"/>
+    <!-- Chair legs -->
+    <rect x="345" y="305" width="10" height="20" rx="2" fill="#6b4820"/>
+    <rect x="455" y="305" width="10" height="20" rx="2" fill="#6b4820"/>
+    <rect x="360" y="308" width="10" height="15" rx="2" fill="#6b4820"/>
+    <rect x="440" y="308" width="10" height="15" rx="2" fill="#6b4820"/>
+    <!-- Chair cushion -->
+    <rect x="345" y="248" width="120" height="55" rx="8" fill="#9a4858" opacity="0.7"/>
+    <!-- Armrests -->
+    <rect x="330" y="230" width="20" height="60" rx="6" fill="#7a3038"/>
+    <rect x="460" y="230" width="20" height="60" rx="6" fill="#7a3038"/>
+
+    <!-- Small side table -->
+    <rect x="490" y="278" width="60" height="8" rx="2" fill="#8b6340"/>
+    <rect x="508" y="286" width="6"  height="22" rx="1" fill="#6b4820"/>
+    <rect x="530" y="286" width="6"  height="22" rx="1" fill="#6b4820"/>
+    <!-- Candle on table (hidden object) -->
+    <rect x="522" y="263" width="8" height="18" rx="1" fill="#faf6f0" id="obj-candle" class="hit-zone" data-target="candle"/>
+    <ellipse cx="526" cy="262" rx="4" ry="2" fill="#faf6f0" id="obj-candle-top"/>
+    <line x1="526" y1="260" x2="526" y2="252" stroke="#f59e0b" stroke-width="1.5" id="obj-candle-wick"/>
+    <ellipse cx="526" cy="252" rx="3" ry="4" fill="#fde68a" opacity="0.8" id="obj-candle-flame"/>
+    <ellipse cx="526" cy="251" rx="1.5" ry="2" fill="#fbbf24" opacity="0.9" id="obj-candle-inner"/>
+
+    <!-- Rug -->
+    <ellipse cx="300" cy="360" rx="200" ry="45" fill="#8b4049" opacity="0.25"/>
+    <ellipse cx="300" cy="360" rx="180" ry="38" fill="none" stroke="#8b4049" stroke-width="2" opacity="0.3"/>
+    <ellipse cx="300" cy="360" rx="140" ry="28" fill="none" stroke="#c9956c" stroke-width="1.5" opacity="0.35"/>
+
+    <!-- Sleeping cat (hidden object) -->
+    <ellipse cx="82" cy="314" rx="22" ry="12" fill="#5c534a" opacity="0.85" id="obj-cat-body" class="hit-zone" data-target="cat"/>
+    <circle   cx="94" cy="308" r="9"  fill="#5c534a" opacity="0.85" id="obj-cat-head"/>
+    <!-- Cat ears -->
+    <polygon points="91,302 87,295 95,300" fill="#5c534a" id="obj-cat-ear1"/>
+    <polygon points="97,300 100,294 103,300" fill="#5c534a" id="obj-cat-ear2"/>
+    <!-- Cat face -->
+    <circle cx="91" cy="308" r="1.2" fill="#3d3530" id="obj-cat-eye1"/>
+    <circle cx="97" cy="308" r="1.2" fill="#3d3530" id="obj-cat-eye2"/>
+    <line x1="94" y1="310" x2="88" y2="312" stroke="#3d3530" stroke-width="0.8" id="obj-cat-w1"/>
+    <line x1="94" y1="311" x2="88" y2="313" stroke="#3d3530" stroke-width="0.8" id="obj-cat-w2"/>
+    <line x1="94" y1="310" x2="100" y2="312" stroke="#3d3530" stroke-width="0.8" id="obj-cat-w3"/>
+    <!-- Cat tail -->
+    <path d="M62 318 Q50 305 58 295 Q62 290 65 298" stroke="#5c534a" stroke-width="4" fill="none" stroke-linecap="round" id="obj-cat-tail"/>
+
+    <!-- Key on floor (hidden object) -->
+    <circle cx="155" cy="377" r="7" fill="none" stroke="#c9956c" stroke-width="3" id="obj-key-ring" class="hit-zone" data-target="key"/>
+    <circle cx="155" cy="377" r="3" fill="none" stroke="#c9956c" stroke-width="2" id="obj-key-hole"/>
+    <line x1="155" y1="370" x2="155" y2="353" stroke="#c9956c" stroke-width="2.5" id="obj-key-shaft"/>
+    <line x1="155" y1="356" x2="159" y2="352" stroke="#c9956c" stroke-width="2" id="obj-key-tooth1"/>
+    <line x1="155" y1="361" x2="159" y2="357" stroke="#c9956c" stroke-width="2" id="obj-key-tooth2"/>
+
+    <!-- Mouse (hidden) near bookshelf bottom -->
+    <ellipse cx="310" cy="363" rx="10" ry="6" fill="#7a6f64" opacity="0.8" id="obj-mouse-body" class="hit-zone" data-target="mouse"/>
+    <circle cx="320" cy="360" r="5"  fill="#7a6f64" opacity="0.8" id="obj-mouse-head"/>
+    <circle cx="323" cy="358" r="2"  fill="#f0d0c8" id="obj-mouse-ear"/>
+    <circle cx="322" cy="359" r="0.8" fill="#3d3530" id="obj-mouse-eye"/>
+    <path d="M300 363 Q290 358 285 363" stroke="#7a6f64" stroke-width="1.5" fill="none" id="obj-mouse-tail"/>
+
+    <!-- Decorative touches -->
+    <text x="300" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8b4049" opacity="0.5" letter-spacing="4">✦ THE READING ROOM ✦</text>
+    </svg>`;
+  }
+
+  // ── KITCHEN ────────────────────────────────
+  function drawKitchen() {
+    return svgOpen() + `
+    <defs>
+      <pattern id="tile-wall" patternUnits="userSpaceOnUse" width="30" height="30">
+        <rect width="30" height="30" fill="#e8f4e8"/>
+        <rect x="0.5" y="0.5" width="29" height="29" fill="none" stroke="#c8dfc8" stroke-width="0.8"/>
+      </pattern>
+      <linearGradient id="counter-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e2d4c0"/>
+        <stop offset="100%" stop-color="#c8b89a"/>
+      </linearGradient>
+      <linearGradient id="cabinet-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8b6340"/>
+        <stop offset="100%" stop-color="#6b4820"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Wall tiles -->
+    <rect width="600" height="420" fill="url(#tile-wall)"/>
+
+    <!-- Floor -->
+    <rect x="0" y="300" width="600" height="120" fill="#c8a87a"/>
+    <!-- Checkerboard floor -->
+    <rect x="0"   y="300" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="120" y="300" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="240" y="300" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="360" y="300" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="480" y="300" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="60"  y="360" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="180" y="360" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="300" y="360" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="420" y="360" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+    <rect x="540" y="360" width="60" height="60" fill="#e2d4c0" opacity="0.5"/>
+
+    <!-- Upper cabinets -->
+    <rect x="0"   y="40" width="180" height="140" rx="3" fill="url(#cabinet-grad)"/>
+    <rect x="190" y="40" width="120" height="140" rx="3" fill="url(#cabinet-grad)"/>
+    <!-- Cabinet doors -->
+    <rect x="8"   y="48" width="78" height="124" rx="2" fill="#7a5530" stroke="#5a3a10" stroke-width="1"/>
+    <rect x="94"  y="48" width="78" height="124" rx="2" fill="#7a5530" stroke="#5a3a10" stroke-width="1"/>
+    <rect x="198" y="48" width="104" height="124" rx="2" fill="#7a5530" stroke="#5a3a10" stroke-width="1"/>
+    <!-- Cabinet handles -->
+    <rect x="44"  y="108" width="8" height="3" rx="1" fill="#c9956c"/>
+    <rect x="130" y="108" width="8" height="3" rx="1" fill="#c9956c"/>
+    <rect x="247" y="108" width="8" height="3" rx="1" fill="#c9956c"/>
+
+    <!-- Window above sink -->
+    <rect x="330" y="30" width="160" height="160" rx="4" fill="#dbeaf5" opacity="0.7"/>
+    <rect x="330" y="30" width="160" height="160" rx="4" fill="none" stroke="#8b6340" stroke-width="4"/>
+    <line x1="410" y1="30" x2="410" y2="190" stroke="#8b6340" stroke-width="3"/>
+    <line x1="330" y1="110" x2="490" y2="110" stroke="#8b6340" stroke-width="3"/>
+    <rect x="334" y="34"  width="72" height="72" fill="#fff5e0" opacity="0.4"/>
+    <rect x="414" y="34"  width="72" height="72" fill="#fff5e0" opacity="0.4"/>
+    <!-- Outside: simple garden view -->
+    <rect x="334" y="114" width="72"  height="72" fill="#c8dfc8" opacity="0.4"/>
+    <rect x="414" y="114" width="72"  height="72" fill="#c8dfc8" opacity="0.4"/>
+    <ellipse cx="360" cy="140" rx="20" ry="28" fill="#4a5d4a" opacity="0.35"/>
+    <ellipse cx="445" cy="145" rx="15" ry="22" fill="#4a5d4a" opacity="0.35"/>
+    <!-- Curtains -->
+    <path d="M330 30 Q312 70 322 140 Q318 165 330 190" fill="#8b4049" opacity="0.4"/>
+    <path d="M490 30 Q508 70 498 140 Q502 165 490 190" fill="#8b4049" opacity="0.4"/>
+
+    <!-- Butterfly near window (hidden) -->
+    <g id="obj-butterfly" class="hit-zone" data-target="butterfly">
+      <ellipse cx="480" cy="76" rx="12" ry="7" fill="#8b4049" opacity="0.75" transform="rotate(-20,480,76)"/>
+      <ellipse cx="500" cy="82" rx="9"  ry="5" fill="#8b4049" opacity="0.65" transform="rotate(-20,500,82)"/>
+      <ellipse cx="480" cy="90" rx="10" ry="6" fill="#c9956c" opacity="0.75" transform="rotate(20,480,90)"/>
+      <ellipse cx="500" cy="85" rx="7"  ry="5" fill="#c9956c" opacity="0.65" transform="rotate(20,500,85)"/>
+      <line x1="490" y1="75" x2="490" y2="92" stroke="#3d3530" stroke-width="1" opacity="0.7"/>
+      <path d="M490 75 Q486 68 482 66" stroke="#3d3530" stroke-width="0.8" fill="none"/>
+      <path d="M490 75 Q494 68 498 66" stroke="#3d3530" stroke-width="0.8" fill="none"/>
+    </g>
+
+    <!-- Counter top -->
+    <rect x="0" y="240" width="600" height="20" rx="2" fill="url(#counter-grad)"/>
+    <rect x="0" y="258" width="600" height="50" rx="0" fill="#8b6340" opacity="0.7"/>
+
+    <!-- Sink -->
+    <rect x="330" y="200" width="160" height="45" rx="4" fill="#d0c8c0" stroke="#b0a898" stroke-width="2"/>
+    <rect x="340" y="208" width="65" height="30" rx="3" fill="#b8b0a8" opacity="0.7"/>
+    <rect x="415" y="208" width="65" height="30" rx="3" fill="#b8b0a8" opacity="0.7"/>
+    <!-- Faucet -->
+    <rect x="400" y="195" width="8" height="18" rx="2" fill="#c0bab4"/>
+    <rect x="392" y="195" width="24" height="6" rx="2" fill="#c0bab4"/>
+    <circle cx="392" cy="198" r="4" fill="#a0a0a0"/>
+    <circle cx="416" cy="198" r="4" fill="#a0a0a0"/>
+
+    <!-- Stove -->
+    <rect x="0" y="195" width="200" height="65" rx="3" fill="#5c534a"/>
+    <!-- Burners -->
+    <ellipse cx="60"  cy="225" rx="25" ry="22" fill="#3d3530"/>
+    <ellipse cx="60"  cy="225" rx="18" ry="15" fill="#4a4540" stroke="#3d3530" stroke-width="1"/>
+    <ellipse cx="148" cy="225" rx="25" ry="22" fill="#3d3530"/>
+    <ellipse cx="148" cy="225" rx="18" ry="15" fill="#4a4540" stroke="#3d3530" stroke-width="1"/>
+    <!-- Pot on burner -->
+    <ellipse cx="60" cy="210" rx="22" ry="8"  fill="#4a5d4a"/>
+    <rect x="38" y="200" width="44" height="18" rx="2" fill="#4a5d4a"/>
+    <ellipse cx="60" cy="200" rx="22" ry="6"  fill="#5a6d5a"/>
+    <rect x="34" y="207" width="8" height="4" rx="1" fill="#3d3530"/>
+    <rect x="78" y="207" width="8" height="4" rx="1" fill="#3d3530"/>
+    <!-- Key hidden on counter left side -->
+    <g id="obj-key" class="hit-zone" data-target="key">
+      <circle cx="70" cy="192" r="6" fill="none" stroke="#c9956c" stroke-width="2.5"/>
+      <circle cx="70" cy="192" r="2.5" fill="none" stroke="#c9956c" stroke-width="1.5"/>
+      <line x1="70" y1="186" x2="70" y2="170" stroke="#c9956c" stroke-width="2.2"/>
+      <line x1="70" y1="173" x2="74" y2="169" stroke="#c9956c" stroke-width="1.8"/>
+      <line x1="70" y1="178" x2="74" y2="174" stroke="#c9956c" stroke-width="1.8"/>
+    </g>
+
+    <!-- Spice rack on counter -->
+    <rect x="210" y="220" width="110" height="32" rx="2" fill="#8b6340" opacity="0.5"/>
+    <rect x="215" y="210" width="16" height="32" rx="2" fill="#c9956c" opacity="0.7"/>
+    <rect x="235" y="205" width="14" height="37" rx="2" fill="#8b4049" opacity="0.7"/>
+    <rect x="253" y="212" width="14" height="30" rx="2" fill="#4a5d4a" opacity="0.8"/>
+    <rect x="271" y="208" width="16" height="34" rx="2" fill="#ddb892" opacity="0.8"/>
+    <rect x="291" y="214" width="13" height="28" rx="2" fill="#c9956c" opacity="0.6"/>
+
+    <!-- Teacup (hidden) on far left counter -->
+    <g id="obj-teacup" class="hit-zone" data-target="teacup">
+      <ellipse cx="138" cy="238" rx="18" ry="6" fill="#faf6f0" opacity="0.9"/>
+      <path d="M120 235 Q120 252 138 254 Q156 252 156 235" fill="#faf6f0" stroke="#e2d4c0" stroke-width="1" opacity="0.9"/>
+      <ellipse cx="138" cy="235" rx="18" ry="6" fill="#faf6f0" opacity="0.9"/>
+      <path d="M156 240 Q165 238 165 244 Q165 250 156 248" stroke="#e2d4c0" stroke-width="2" fill="none"/>
+      <ellipse cx="138" cy="255" rx="20" ry="4" fill="#e2d4c0" opacity="0.6"/>
+    </g>
+
+    <!-- Coin on counter (hidden) -->
+    <circle cx="296" cy="237" r="10" fill="#c9956c" opacity="0.85" id="obj-coin" class="hit-zone" data-target="coin"/>
+    <circle cx="296" cy="237" r="7"  fill="none" stroke="#b8844a" stroke-width="1.5" opacity="0.7" id="obj-coin-inner"/>
+    <text x="296" y="241" text-anchor="middle" font-size="7" fill="#8b6340" opacity="0.8">✦</text>
+
+    <!-- Mouse near snail area -->
+    <g id="obj-mouse" class="hit-zone" data-target="mouse">
+      <ellipse cx="380" cy="381" rx="12" ry="7" fill="#7a6f64" opacity="0.8"/>
+      <circle cx="391" cy="377" r="6" fill="#7a6f64" opacity="0.8"/>
+      <ellipse cx="395" cy="374" rx="3" ry="2" fill="#f0d0c8"/>
+      <circle cx="394" cy="375" r="0.8" fill="#3d3530"/>
+      <path d="M368 381 Q357 376 353 381" stroke="#7a6f64" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- Snail (hidden) bottom right -->
+    <g id="obj-snail" class="hit-zone" data-target="snail">
+      <ellipse cx="540" cy="365" rx="16" ry="8" fill="#8b6340" opacity="0.8"/>
+      <path d="M530 360 Q528 350 535 348 Q542 346 545 352 Q548 358 542 362 Q536 366 530 362" fill="#c9956c" opacity="0.9" stroke="#8b6340" stroke-width="1"/>
+      <circle cx="538" cy="354" r="5" fill="none" stroke="#8b6340" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="538" cy="354" r="2.5" fill="none" stroke="#c9956c" stroke-width="1" opacity="0.7"/>
+      <line x1="530" y1="350" x2="527" y2="344" stroke="#8b6340" stroke-width="1"/>
+      <line x1="528" y1="348" x2="525" y2="342" stroke="#8b6340" stroke-width="1"/>
+      <circle cx="527" cy="343" r="1.2" fill="#8b4049"/>
+      <circle cx="525" cy="341" r="1.2" fill="#8b4049"/>
+    </g>
+
+    <!-- Hanging herbs / garlic -->
+    <line x1="500" y1="30" x2="500" y2="30" stroke="#8b6340" stroke-width="2"/>
+    <line x1="490" y1="30" x2="486" y2="60" stroke="#5a3a10" stroke-width="1.5"/>
+    <ellipse cx="484" cy="64" rx="6" ry="8" fill="#ddb892" opacity="0.8"/>
+    <ellipse cx="488" cy="66" rx="5" ry="7" fill="#e8d4a0" opacity="0.7"/>
+    <line x1="510" y1="30" x2="514" y2="55" stroke="#5a3a10" stroke-width="1.5"/>
+    <ellipse cx="516" cy="59" rx="5" ry="7" fill="#4a5d4a" opacity="0.7"/>
+    <ellipse cx="512" cy="60" rx="4" ry="6" fill="#5a6d5a" opacity="0.6"/>
+
+    <text x="300" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#4a5d4a" opacity="0.5" letter-spacing="4">✦ THE TINY KITCHEN ✦</text>
+    </svg>`;
+  }
+
+  // ── NURSERY ────────────────────────────────
+  function drawNursery() {
+    return svgOpen() + `
+    <defs>
+      <pattern id="nursery-wall" patternUnits="userSpaceOnUse" width="50" height="50">
+        <rect width="50" height="50" fill="#f5eef8"/>
+        <circle cx="25" cy="25" r="1.5" fill="#d4b8e0" opacity="0.4"/>
+        <circle cx="0"  cy="0"  r="1"   fill="#d4b8e0" opacity="0.3"/>
+        <circle cx="50" cy="0"  r="1"   fill="#d4b8e0" opacity="0.3"/>
+        <circle cx="0"  cy="50" r="1"   fill="#d4b8e0" opacity="0.3"/>
+        <circle cx="50" cy="50" r="1"   fill="#d4b8e0" opacity="0.3"/>
+        <path d="M15 25 Q25 15 35 25" stroke="#d4b8e0" stroke-width="0.6" fill="none" opacity="0.3"/>
+      </pattern>
+      <linearGradient id="floor-nur" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ddb892"/>
+        <stop offset="100%" stop-color="#c9956c"/>
+      </linearGradient>
+      <linearGradient id="crib-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e8d4a0"/>
+        <stop offset="100%" stop-color="#c8a870"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Wall -->
+    <rect width="600" height="420" fill="url(#nursery-wall)"/>
+
+    <!-- Baseboard & floor -->
+    <rect x="0" y="300" width="600" height="10" fill="#d4b8e0" opacity="0.5"/>
+    <rect x="0" y="310" width="600" height="110" fill="url(#floor-nur)"/>
+    <!-- Floor planks -->
+    <line x1="0" y1="345" x2="600" y2="345" stroke="#b8844a" stroke-width="1" opacity="0.3"/>
+    <line x1="0" y1="378" x2="600" y2="378" stroke="#b8844a" stroke-width="1" opacity="0.3"/>
+    <line x1="150" y1="310" x2="130" y2="420" stroke="#b8844a" stroke-width="0.8" opacity="0.25"/>
+    <line x1="310" y1="310" x2="290" y2="420" stroke="#b8844a" stroke-width="0.8" opacity="0.25"/>
+    <line x1="460" y1="310" x2="440" y2="420" stroke="#b8844a" stroke-width="0.8" opacity="0.25"/>
+
+    <!-- Butterfly near top center (hidden) -->
+    <g id="obj-butterfly" class="hit-zone" data-target="butterfly">
+      <ellipse cx="295" cy="64" rx="14" ry="8" fill="#8b4049" opacity="0.7" transform="rotate(-15,295,64)"/>
+      <ellipse cx="313" cy="70" rx="10" ry="6" fill="#8b4049" opacity="0.6" transform="rotate(-15,313,70)"/>
+      <ellipse cx="295" cy="78" rx="12" ry="7" fill="#c9956c" opacity="0.7" transform="rotate(15,295,78)"/>
+      <ellipse cx="313" cy="73" rx="8"  ry="5" fill="#c9956c" opacity="0.6" transform="rotate(15,313,73)"/>
+      <line x1="304" y1="63" x2="304" y2="80" stroke="#3d3530" stroke-width="1" opacity="0.7"/>
+      <path d="M304 63 Q299 55 294 53" stroke="#3d3530" stroke-width="0.8" fill="none"/>
+      <path d="M304 63 Q309 55 314 53" stroke="#3d3530" stroke-width="0.8" fill="none"/>
+    </g>
+
+    <!-- Mobile above crib -->
+    <line x1="230" y1="40" x2="370" y2="40" stroke="#c9956c" stroke-width="2"/>
+    <line x1="300" y1="20" x2="300" y2="40" stroke="#c9956c" stroke-width="1.5"/>
+    <!-- Mobile stars -->
+    <line x1="250" y1="40" x2="245" y2="68" stroke="#c9956c" stroke-width="1"/>
+    <line x1="300" y1="40" x2="300" y2="72" stroke="#c9956c" stroke-width="1"/>
+    <line x1="350" y1="40" x2="355" y2="68" stroke="#c9956c" stroke-width="1"/>
+    <text x="245" y="78" font-size="12" text-anchor="middle" fill="#8b4049" opacity="0.8">★</text>
+    <text x="300" y="82" font-size="10" text-anchor="middle" fill="#c9956c" opacity="0.8">☽</text>
+    <text x="355" y="78" font-size="12" text-anchor="middle" fill="#4a5d4a" opacity="0.8">★</text>
+
+    <!-- Crib -->
+    <rect x="200" y="170" width="200" height="140" rx="6" fill="url(#crib-grad)" stroke="#c9956c" stroke-width="2"/>
+    <!-- Crib slats -->
+    <rect x="200" y="170" width="8"  height="140" rx="2" fill="#c8a870"/>
+    <rect x="220" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="238" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="256" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="274" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="292" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="310" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="328" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="346" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="364" y="175" width="6"  height="130" rx="2" fill="#d4b47a" opacity="0.8"/>
+    <rect x="386" y="170" width="14" height="140" rx="2" fill="#c8a870"/>
+    <!-- Crib mattress/bedding -->
+    <rect x="210" y="248" width="180" height="55" rx="4" fill="#faf6f0" opacity="0.9"/>
+    <rect x="210" y="248" width="180" height="22" rx="4" fill="#d4b8e0" opacity="0.6"/>
+    <!-- Tiny bunny in crib -->
+    <ellipse cx="300" cy="275" rx="18" ry="14" fill="#faf6f0" opacity="0.95"/>
+    <circle cx="300" cy="264" r="10"  fill="#faf6f0" opacity="0.95"/>
+    <ellipse cx="295" cy="255" rx="3"  ry="8" fill="#faf6f0"/>
+    <ellipse cx="305" cy="255" rx="3"  ry="8" fill="#faf6f0"/>
+    <circle cx="297" cy="263" r="1.2" fill="#f0c0c0"/>
+    <circle cx="303" cy="263" r="1.2" fill="#f0c0c0"/>
+    <ellipse cx="300" cy="266" rx="2" ry="1.2" fill="#f0c0c0"/>
+
+    <!-- Fireplace -->
+    <rect x="450" y="80" width="130" height="220" rx="4" fill="#7a6f64" opacity="0.6"/>
+    <rect x="460" y="90" width="110" height="170" rx="3" fill="#3d3530"/>
+    <!-- Mantle -->
+    <rect x="440" y="76" width="150" height="16" rx="3" fill="#8b6340"/>
+    <!-- Fire glow -->
+    <ellipse cx="515" cy="235" rx="40" ry="20" fill="#f59e0b" opacity="0.5"/>
+    <ellipse cx="515" cy="225" rx="28" ry="30" fill="#fde68a" opacity="0.4"/>
+    <ellipse cx="515" cy="210" rx="18" ry="38" fill="#f59e0b" opacity="0.35"/>
+    <ellipse cx="505" cy="215" rx="10" ry="24" fill="#fbbf24" opacity="0.5"/>
+    <ellipse cx="525" cy="218" rx="9"  ry="20" fill="#f59e0b" opacity="0.4"/>
+    <!-- Fireplace logs -->
+    <ellipse cx="495" cy="250" rx="18" ry="6" fill="#5a3a10" opacity="0.9"/>
+    <ellipse cx="530" cy="252" rx="16" ry="5" fill="#5a3a10" opacity="0.8"/>
+    <!-- Candle on mantle (hidden) -->
+    <g id="obj-candle" class="hit-zone" data-target="candle">
+      <rect x="553" y="54" width="9" height="22" rx="1" fill="#faf6f0"/>
+      <ellipse cx="557" cy="53" rx="5" ry="2.5" fill="#faf6f0"/>
+      <line x1="557" y1="50" x2="557" y2="41" stroke="#f59e0b" stroke-width="1.5"/>
+      <ellipse cx="557" cy="41" rx="4" ry="5" fill="#fde68a" opacity="0.8"/>
+      <ellipse cx="557" cy="40" rx="2" ry="2.5" fill="#fbbf24" opacity="0.9"/>
+    </g>
+
+    <!-- Toy chest -->
+    <rect x="20" y="265" width="140" height="80" rx="6" fill="#8b4049" opacity="0.8"/>
+    <rect x="20" y="265" width="140" height="25" rx="6" fill="#7a3038"/>
+    <rect x="25" y="270" width="130" height="70" rx="4" fill="#9a4858" opacity="0.5"/>
+    <!-- Toy chest latch -->
+    <rect x="82" y="278" width="16" height="8" rx="3" fill="#c9956c"/>
+    <!-- Toys spilling out -->
+    <circle cx="38"  cy="263" r="12" fill="#c9956c" opacity="0.8"/>
+    <circle cx="38"  cy="263" r="8"  fill="none" stroke="#8b6340" stroke-width="1.5" opacity="0.6"/>
+    <rect x="55" y="252" width="20" height="26" rx="2" fill="#4a5d4a" opacity="0.8"/>
+    <rect x="58" y="248" width="14" height="5"  rx="1" fill="#3d5040"/>
+    <!-- Thimble on toy chest (hidden) -->
+    <g id="obj-thimble" class="hit-zone" data-target="thimble">
+      <rect x="166" y="243" width="12" height="14" rx="2" fill="#c9956c" opacity="0.85"/>
+      <ellipse cx="172" cy="242" rx="6" ry="3" fill="#b8844a" opacity="0.85"/>
+      <line x1="167" y1="245" x2="169" y2="257" stroke="#8b6340" stroke-width="0.8" opacity="0.6"/>
+      <line x1="172" y1="244" x2="172" y2="257" stroke="#8b6340" stroke-width="0.8" opacity="0.6"/>
+      <line x1="177" y1="245" x2="175" y2="257" stroke="#8b6340" stroke-width="0.8" opacity="0.6"/>
+    </g>
+
+    <!-- Rocking horse -->
+    <ellipse cx="100" cy="185" rx="50" ry="35" fill="#ddb892" stroke="#c9956c" stroke-width="2"/>
+    <!-- Horse head -->
+    <rect x="138" y="152" width="28" height="22" rx="6" fill="#ddb892" stroke="#c9956c" stroke-width="1.5"/>
+    <rect x="155" y="145" width="10" height="16" rx="3" fill="#ddb892" stroke="#c9956c" stroke-width="1"/>
+    <!-- Mane -->
+    <path d="M145 148 Q148 138 155 145" stroke="#c9956c" stroke-width="2" fill="none"/>
+    <path d="M150 146 Q153 136 160 143" stroke="#c9956c" stroke-width="2" fill="none"/>
+    <!-- Eye -->
+    <circle cx="155" cy="160" r="2.5" fill="#3d3530"/>
+    <!-- Rockers -->
+    <path d="M55 215 Q100 232 148 215" stroke="#8b6340" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+    <!-- Snail (hidden) on wall right of fireplace -->
+    <g id="obj-snail" class="hit-zone" data-target="snail">
+      <ellipse cx="430" cy="204" rx="14" ry="7" fill="#8b6340" opacity="0.8"/>
+      <path d="M420 200 Q418 191 425 189 Q432 187 434 193 Q437 199 430 202 Q424 205 420 200" fill="#c9956c" opacity="0.9" stroke="#8b6340" stroke-width="1"/>
+      <circle cx="428" cy="195" r="4" fill="none" stroke="#8b6340" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="428" cy="195" r="2" fill="none" stroke="#c9956c" stroke-width="1" opacity="0.6"/>
+      <line x1="420" y1="192" x2="417" y2="186" stroke="#8b6340" stroke-width="1"/>
+      <line x1="418" y1="190" x2="415" y2="184" stroke="#8b6340" stroke-width="1"/>
+      <circle cx="417" cy="185" r="1.2" fill="#8b4049"/>
+      <circle cx="415" cy="183" r="1.2" fill="#8b4049"/>
+    </g>
+
+    <!-- Cat sleeping by fireplace (hidden) -->
+    <g id="obj-cat" class="hit-zone" data-target="cat">
+      <ellipse cx="510" cy="348" rx="25" ry="13" fill="#c9956c" opacity="0.85"/>
+      <circle cx="524" cy="340" r="10"  fill="#c9956c" opacity="0.85"/>
+      <polygon points="521,333 517,324 525,331" fill="#c9956c"/>
+      <polygon points="527,330 530,322 534,330" fill="#c9956c"/>
+      <circle cx="521" cy="339" r="1.2" fill="#3d3530"/>
+      <circle cx="528" cy="339" r="1.2" fill="#3d3530"/>
+      <line x1="524" y1="342" x2="517" y2="344" stroke="#3d3530" stroke-width="0.8"/>
+      <line x1="524" y1="343" x2="517" y2="345" stroke="#3d3530" stroke-width="0.8"/>
+      <line x1="524" y1="342" x2="531" y2="344" stroke="#3d3530" stroke-width="0.8"/>
+      <path d="M487 352 Q475 340 482 330 Q486 324 489 333" stroke="#c9956c" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- Acorn on floor (hidden) -->
+    <g id="obj-acorn" class="hit-zone" data-target="acorn">
+      <ellipse cx="88" cy="380" rx="8" ry="9" fill="#8b6340"/>
+      <ellipse cx="88" cy="373" rx="8" ry="4" fill="#5a3a10"/>
+      <line x1="88" y1="369" x2="87" y2="364" stroke="#5a3a10" stroke-width="1.5"/>
+    </g>
+
+    <text x="300" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8b4049" opacity="0.5" letter-spacing="4">✦ THE LITTLE NURSERY ✦</text>
+    </svg>`;
+  }
+
+  /* ══════════════════════════════════════════
+     GAME STATE
+  ══════════════════════════════════════════ */
+
+  let currentRoom = 'library';
+  let found = new Set();
+  let hintsLeft = 3;
+  let hintTimeout = null;
+
+  const roomKeys = ['library', 'kitchen', 'nursery'];
+
+  /* ══════════════════════════════════════════
+     DOM REFS
+  ══════════════════════════════════════════ */
+
+  const sceneWrap   = document.getElementById('scene-wrap');
+  const objectList  = document.getElementById('object-list');
+  const winBanner   = document.getElementById('win-banner');
+  const rewardTitle = document.getElementById('reward-title');
+  const rewardText  = document.getElementById('reward-text');
+  const foundCtr    = document.getElementById('found-counter');
+  const hintBtn     = document.getElementById('hint-btn');
+  const playAgain   = document.getElementById('play-again-btn');
+
+  /* ══════════════════════════════════════════
+     LOAD ROOM
+  ══════════════════════════════════════════ */
+
+  function loadRoom(roomKey, animate = true) {
+    currentRoom = roomKey;
+    found.clear();
+    hintsLeft = 3;
+
+    updateHintBtn();
+    winBanner.classList.remove('visible');
+    rewardTitle.textContent = '';
+    rewardText.textContent = '';
+
+    const room = ROOMS[roomKey];
+
+    const doLoad = () => {
+      sceneWrap.innerHTML = room.svgFn();
+      sceneWrap.classList.remove('fading');
+      sceneWrap.classList.add('fading-in');
+      setTimeout(() => sceneWrap.classList.remove('fading-in'), 350);
+      attachHitZones();
+      renderChecklist();
+      updateCounter();
+    };
+
+    if (animate) {
+      sceneWrap.classList.add('fading');
+      setTimeout(doLoad, 260);
+    } else {
+      doLoad();
+    }
+
+    // Update room buttons
+    document.querySelectorAll('.room-btn[data-room]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.room === roomKey);
+    });
+  }
+
+  /* ══════════════════════════════════════════
+     HIT ZONES
+  ══════════════════════════════════════════ */
+
+  function attachHitZones() {
+    const svg = sceneWrap.querySelector('svg');
+    if (!svg) return;
+
+    const room = ROOMS[currentRoom];
+
+    // Use coordinate-based hit detection on the SVG itself
+    svg.addEventListener('click', onSvgClick);
+  }
+
+  function onSvgClick(e) {
+    const svg = sceneWrap.querySelector('svg');
+    const pt  = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    const room = ROOMS[currentRoom];
+
+    for (const obj of room.objects) {
+      if (found.has(obj.id)) continue;
+
+      const dx = svgPt.x - obj.cx;
+      const dy = svgPt.y - obj.cy;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      if (dist <= obj.r) {
+        markFound(obj, svgPt.x, svgPt.y);
+        return;
+      }
+    }
+  }
+
+  /* ══════════════════════════════════════════
+     MARK FOUND
+  ══════════════════════════════════════════ */
+
+  function markFound(obj, svgX, svgY) {
+    found.add(obj.id);
+
+    // Dim the object in the SVG
+    const svg = sceneWrap.querySelector('svg');
+    const viewBox = svg.viewBox.baseVal;
+    const rect    = svg.getBoundingClientRect();
+    const scaleX  = rect.width  / viewBox.width;
+    const scaleY  = rect.height / viewBox.height;
+
+    // Pixel coords for burst
+    const px = rect.left + (svgX - viewBox.x) * scaleX;
+    const py = rect.top  + (svgY - viewBox.y) * scaleY;
+
+    // Dim matching elements
+    svg.querySelectorAll(`[id^="obj-${obj.id}"]`).forEach(el => {
+      el.classList.add('found-object');
+    });
+
+    // Burst animation
+    showBurst(px, py, obj.emoji);
+
+    // Update checklist chip
+    const chip = document.getElementById(`chip-${obj.id}`);
+    if (chip) chip.classList.add('found');
+
+    updateCounter();
+
+    if (found.size === ROOMS[currentRoom].objects.length) {
+      const room = ROOMS[currentRoom];
+      hintBtn.disabled = true;
+      hintBtn.textContent = '✦ All found';
+      rewardTitle.textContent = room.rewardTitle;
+      rewardText.textContent = room.rewardText;
+      setTimeout(() => winBanner.classList.add('visible'), 600);
+    }
+  }
+
+  /* ══════════════════════════════════════════
+     BURST
+  ══════════════════════════════════════════ */
+
+  function showBurst(px, py, emoji) {
+    const burst = document.createElement('div');
+    burst.className = 'found-burst';
+    burst.textContent = emoji;
+    burst.style.left = `${px}px`;
+    burst.style.top  = `${py}px`;
+    burst.style.position = 'fixed';
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 750);
+  }
+
+  /* ══════════════════════════════════════════
+     CHECKLIST
+  ══════════════════════════════════════════ */
+
+  function renderChecklist() {
+    const room = ROOMS[currentRoom];
+    objectList.innerHTML = room.objects.map(obj => `
+      <div class="object-chip" id="chip-${obj.id}">
+        <span>${obj.emoji}</span>
+        <span>${obj.label}</span>
+      </div>
+    `).join('');
+  }
+
+  function updateCounter() {
+    const total = ROOMS[currentRoom].objects.length;
+    foundCtr.textContent = `Found: ${found.size} of ${total}`;
+  }
+
+  /* ══════════════════════════════════════════
+     HINTS
+  ══════════════════════════════════════════ */
+
+  function updateHintBtn() {
+    hintBtn.textContent = `✦ Hint (${hintsLeft} left)`;
+    hintBtn.disabled = hintsLeft <= 0;
+  }
+
+  hintBtn.addEventListener('click', () => {
+    if (hintsLeft <= 0) return;
+
+    const room = ROOMS[currentRoom];
+    const unfound = room.objects.filter(o => !found.has(o.id));
+    if (!unfound.length) return;
+
+    // Pick random unfound object
+    const obj = unfound[Math.floor(Math.random() * unfound.length)];
+
+    // Draw hint circle overlay on SVG
+    const svg = sceneWrap.querySelector('svg');
+    if (!svg) return;
+
+    // Remove old hint
+    svg.querySelectorAll('.hint-circle').forEach(el => el.remove());
+    if (hintTimeout) clearTimeout(hintTimeout);
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', obj.cx);
+    circle.setAttribute('cy', obj.cy);
+    circle.setAttribute('r', obj.r * 2.2);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', '#8b4049');
+    circle.setAttribute('stroke-width', '2');
+    circle.setAttribute('stroke-dasharray', '4 3');
+    circle.setAttribute('class', 'hint-circle hint-pulse');
+    svg.appendChild(circle);
+
+    hintsLeft--;
+    updateHintBtn();
+
+    hintTimeout = setTimeout(() => circle.remove(), 4000);
+  });
+
+  /* ══════════════════════════════════════════
+     ROOM SELECTOR BUTTONS
+  ══════════════════════════════════════════ */
+
+  document.querySelectorAll('.room-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.room;
+      if (key === 'random') {
+        const others = roomKeys.filter(k => k !== currentRoom);
+        const pick   = others[Math.floor(Math.random() * others.length)];
+        loadRoom(pick);
+      } else {
+        if (key !== currentRoom) loadRoom(key);
+      }
+    });
+  });
+
+  /* ══════════════════════════════════════════
+     PLAY AGAIN
+  ══════════════════════════════════════════ */
+
+  playAgain.addEventListener('click', () => {
+    const others = roomKeys.filter(k => k !== currentRoom);
+    loadRoom(others[Math.floor(Math.random() * others.length)]);
+  });
+
+  /* ══════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════ */
+
+  loadRoom('library', false);
+
+})();
+</script>
+
 
     <!-- FOOTER -->
     <footer class="footer">
